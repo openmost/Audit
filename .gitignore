@@ -1,0 +1,8 @@
+.idea
+node_modules
+.claude
+/vue/dist/*.umd.js
+/vue/dist/*.common.js
+/vue/dist/*.map
+/vue/dist/demo.html
+.phpunit.result.cache

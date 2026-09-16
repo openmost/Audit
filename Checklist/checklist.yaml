@@ -1,0 +1,979 @@
+version: 1
+metadata:
+  title: Matomo On-Premise Audit Checklist
+  author: Openmost
+  updated: "2026-04-11"
+  language: en
+  sources:
+    - https://matomo.org/faq/on-premise/matomo-requirements/
+    - https://matomo.org/faq/on-premise/what-are-the-important-pre-deployment-checks-during-matomo-setup/
+    - https://matomo.org/faq/on-premise/what-are-the-important-checks-needs-to-be-done-post-deployment-of-matomo/
+    - https://matomo.org/faq/on-premise/running-matomo-in-high-traffic-environments/
+    - https://matomo.org/faq/on-premise/how-to-configure-matomo-for-high-availability-multi-server-environment/
+
+# ---- DETECTION METHODS --------------------------------------------------
+methods:
+  mcp: {emoji: "🔌", label: "Matomo API via openmost-matomo-mcp"}
+  diag: {emoji: "📋", label: "System Check export"}
+  srv: {emoji: "🖥️", label: "Server SSH access"}
+  cfg: {emoji: "📄", label: "config.ini.php read"}
+  db: {emoji: "🗄️", label: "Direct SQL query"}
+  web: {emoji: "🌐", label: "Front-end inspection"}
+  cli: {emoji: "💬", label: "Client interview"}
+
+# ---- CATEGORIES ---------------------------------------------------------
+categories:
+  - {id: infrastructure, order: 1,  label: "Infrastructure & server",            conditional: null}
+  - {id: php,            order: 2,  label: "PHP",                                conditional: null}
+  - {id: database,       order: 3,  label: "Database",                           conditional: null}
+  - {id: files-exposure, order: 4,  label: "Public file exposure",               conditional: null}
+  - {id: config-file,    order: 5,  label: "config.ini.php settings",            conditional: null}
+  - {id: ops,            order: 6,  label: "Backups & monitoring",               conditional: null}
+  - {id: plugins,        order: 7,  label: "Plugins",                            conditional: null}
+  - {id: general,        order: 8,  label: "Matomo general settings",            conditional: null}
+  - {id: privacy,        order: 9,  label: "Privacy / GDPR",                     conditional: null}
+  - {id: users,          order: 10, label: "Users & permissions",                conditional: null}
+  - {id: sites,          order: 11, label: "Web sites (per property)",           conditional: null}
+  - {id: data-quality,   order: 12, label: "Data quality",                       conditional: null}
+  - {id: tag-manager,    order: 13, label: "Matomo Tag Manager",                 conditional: null}
+  - {id: integration,    order: 14, label: "Website integration",                conditional: null}
+  - {id: multi-server,   order: 15, label: "Multi-server / HA",                  conditional: "multi_server"}
+  - {id: high-traffic,   order: 16, label: "High traffic / performance",         conditional: "high_traffic"}
+
+# ---- SEVERITY LEVELS ----------------------------------------------------
+severities:
+  critical: {label: "Critical", color: "red"}
+  high:     {label: "High",     color: "orange"}
+  medium:   {label: "Medium",   color: "yellow"}
+  low:      {label: "Low",      color: "blue"}
+  info:     {label: "Info",     color: "gray"}
+
+# =========================================================================
+# ITEMS
+# =========================================================================
+# This file is the *structural* registry of audit items. It only describes
+# WHAT to check (detection rules, severity, category) and WHERE to find
+# the data. User-facing strings (title + recommendation template) are
+# deliberately not stored here — they live in `lang/<locale>.json` under
+# the `Audit_<PascalCaseId>Title` / `Audit_<PascalCaseId>Template` keys
+# and are resolved by `Support\CheckTranslator` at runtime. This ensures
+# the YAML stays language-neutral and avoids duplication.
+#
+# Schema per item:
+#   id:       unique kebab-case identifier (maps to the translation key)
+#   cat:      category id
+#   severity: critical|high|medium|low|info
+#   methods:  list of detection methods (in preference order)
+#   diag:     {field, expected?, compare_field?, contains?, not_contains?, regex?, check_ok?}
+#   mcp:      {tool, endpoint?, path?}
+#   cfg:      {section, key, expected?}
+#   db:       {query, expected?}
+#   srv:      {command, expected?} — documented for later SSH automation
+#   web:      {check}              — documented for later crawler
+#   cli:      {question}
+#   refs:     list of URLs
+#   code:     code snippet rendered in the recommendation block
+# =========================================================================
+
+items:
+
+# ---------- 1. INFRASTRUCTURE & SERVER -----------------------------------
+
+  - id: srv-matomo-version
+    cat: infrastructure
+    severity: high
+    methods: [diag]
+    diag:
+      field: "Matomo Version"
+      compare_field: "Latest Available Version"
+    refs: ["https://matomo.org/changelog/"]
+
+  - id: srv-php-version
+    cat: php
+    severity: high
+    methods: [diag]
+    diag:
+      field: "PHP version"
+      regex: "8\\.[2-9]|9\\."
+  - id: srv-php-fpm
+    cat: php
+    severity: medium
+    methods: [diag]
+    diag:
+      field: "PHP SAPI"
+      contains: "fpm"
+  - id: srv-php-memory-limit
+    cat: php
+    severity: high
+    methods: [diag]
+    diag:
+      field: "Memory Limit"
+      regex: "(([2-9]|[1-9][0-9]+)\\s*G|([2-9][0-9]{3,}|[1-9][0-9]{4,})\\s*M)"
+    code: |
+      memory_limit=2G
+
+  - id: srv-php-max-execution-time
+    cat: php
+    severity: medium
+    methods: [diag]
+    diag:
+      field: "PHP INI max_execution_time"
+    code: |
+      max_execution_time=3600
+
+  - id: srv-php-post-max-size
+    cat: php
+    severity: low
+    methods: [diag]
+    diag:
+      field: "PHP INI post_max_size"
+      regex: "^([3-9][2-9]|[1-9][0-9]{2,})M"
+    code: |
+      post_max_size=32M
+
+  - id: srv-php-opcache
+    cat: php
+    severity: high
+    methods: [srv]
+    srv:
+      command: "php -i | grep opcache"
+    code: |
+      opcache.enable=1
+      opcache.memory_consumption=512
+      opcache.max_accelerated_files=30000
+      opcache.validate_timestamps=1
+
+  - id: srv-php-extensions
+    cat: php
+    severity: critical
+    methods: [diag]
+    diag:
+      field: "Other required extensions"
+      check_ok: true
+
+  - id: srv-php-shell-exec
+    cat: php
+    severity: high
+    methods: [diag]
+    diag:
+      field: "Other functions"
+      contains: "shell_exec"
+  - id: srv-web-engine
+    cat: infrastructure
+    severity: low
+    methods: [diag]
+    diag:
+      field: "Server Info"
+  - id: srv-web-http2
+    cat: infrastructure
+    severity: medium
+    premium: true
+  - id: srv-web-https-force
+    cat: infrastructure
+    severity: critical
+    premium: true
+
+  - id: srv-ssl-cert-rating
+    cat: infrastructure
+    severity: medium
+    premium: true
+
+  - id: srv-db-size
+    cat: database
+    severity: info
+    methods: [db]
+    db:
+      query: "SELECT SUM(data_length + index_length) FROM information_schema.tables WHERE table_schema = DATABASE()"
+
+  - id: srv-tracking-volume
+    cat: database
+    severity: info
+    methods: [db]
+    db:
+      query: "SELECT TABLE_ROWS FROM information_schema.tables WHERE table_schema = DATABASE() AND table_name IN ('matomo_log_visit','matomo_log_link_visit_action')"
+
+  - id: srv-mysql-version
+    cat: database
+    severity: high
+    methods: [diag]
+    diag:
+      field: "MySQL Version"
+  - id: srv-mysql-engine-innodb
+    cat: database
+    severity: high
+    methods: [db]
+    db:
+      query: "SELECT table_name, engine FROM information_schema.tables WHERE table_schema = DATABASE() AND engine != 'InnoDB'"
+      expected: "0 rows"
+  - id: srv-mysql-charset
+    cat: database
+    severity: medium
+    methods: [diag]
+    diag:
+      field: "DB Charset"
+      expected: "utf8mb4"
+
+  - id: srv-mysql-max-allowed-packet
+    cat: database
+    severity: medium
+    methods: [diag, db]
+    diag:
+      field: "Max allowed packet"
+      check_ok: true
+    db:
+      query: "SHOW VARIABLES LIKE 'max_allowed_packet'"
+    code: |
+      max_allowed_packet=512M
+
+  - id: srv-mysql-wait-timeout
+    cat: database
+    severity: medium
+    methods: [db]
+    db:
+      query: "SHOW VARIABLES LIKE 'wait_timeout'"
+    code: |
+      wait_timeout=35000
+
+  - id: srv-mysql-innodb-flush-log
+    cat: database
+    severity: medium
+    methods: [db]
+    db:
+      query: "SHOW VARIABLES LIKE 'innodb_flush_log_at_trx_commit'"
+    code: |
+      innodb_flush_log_at_trx_commit=2
+
+  - id: srv-mysql-innodb-buffer-pool
+    cat: database
+    severity: high
+    methods: [db]
+    db:
+      query: "SHOW VARIABLES LIKE 'innodb_buffer_pool_size'"
+    code: |
+      innodb_buffer_pool_size=XG
+
+  - id: srv-mysql-indexes-transitions
+    cat: database
+    severity: high
+    methods: [db]
+    db:
+      query: "SHOW INDEXES FROM matomo_log_link_visit_action WHERE Key_name IN ('transitions_url', 'transitions_url_ref')"
+      expected: "2 rows"
+    code: |
+      SHOW INDEXES FROM matomo_log_link_visit_action;
+      SHOW INDEXES FROM matomo_log_visit;
+
+      ALTER TABLE `matomo_log_link_visit_action`
+        ADD INDEX `transitions_url` (`idaction_url`, `idsite`, `server_time`),
+        ADD INDEX `transitions_url_ref` (`idaction_url_ref`, `idsite`, `server_time`);
+
+      ALTER TABLE `matomo_log_visit`
+        ADD INDEX `transitions` (`visit_entry_idaction_url`, `idsite`, `visit_last_action_time`);
+
+  - id: srv-mysql-db-not-exposed
+    cat: database
+    severity: critical
+    methods: [srv]
+    srv: {command: "check bind-address and firewall rules"}
+
+  - id: srv-mysql-slow-query-log
+    cat: database
+    severity: low
+    methods: [db]
+    db:
+      query: "SHOW VARIABLES LIKE 'slow_query_log'"
+
+  - id: srv-mysql-ssd
+    cat: database
+    severity: high
+    methods: [srv, cli]
+    cli: {question: "Is the Matomo database hosted on SSD storage?"}
+
+  - id: srv-mysql-user-permissions
+    cat: database
+    severity: medium
+    methods: [db]
+    db:
+      query: "SHOW GRANTS FOR CURRENT_USER()"
+
+  - id: srv-cron-archiver
+    cat: infrastructure
+    severity: critical
+    methods: [diag]
+    diag:
+      field: "Last successful archiving run"
+      check_ok: true
+
+
+  - id: srv-geoip-db
+    cat: infrastructure
+    severity: medium
+    methods: [diag]
+    diag:
+      field: "Geolocation"
+      contains: "geoip2"
+
+  - id: srv-smtp-configured
+    cat: infrastructure
+    severity: high
+    methods: [cli, mcp]
+    cli: {question: "Can you send a test email report from Matomo (Admin → Email reports → Send Report now)?"}
+
+  - id: srv-file-permissions
+    cat: infrastructure
+    severity: critical
+    methods: [diag]
+    diag:
+      field: "Writable directories"
+      check_ok: true
+
+  - id: srv-file-integrity
+    cat: infrastructure
+    severity: medium
+    methods: [diag]
+    diag:
+      field: "File integrity"
+      check_ok: true
+  - id: srv-nfs-codebase
+    cat: infrastructure
+    severity: high
+    methods: [srv]
+    srv: {command: "mount | grep nfs"}
+
+  - id: srv-tracker-cache-short
+    cat: infrastructure
+    severity: medium
+    methods: [web]
+    web: {check: "HTTP Cache-Control header on /matomo.js and /js/container_*.js"}
+  - id: srv-tracker-status
+    cat: infrastructure
+    severity: critical
+    methods: [diag]
+    diag:
+      field: "Tracker status"
+      check_ok: true
+
+  - id: srv-collect-domain-obfuscated
+    cat: infrastructure
+    severity: low
+    methods: [web]
+    web: {check: "tracker domain does not contain 'matomo', 'piwik', 'analytics'"}
+
+  - id: srv-endpoints-exposure
+    cat: infrastructure
+    severity: high
+    methods: [diag]
+    diag:
+      field: "Required private directories"
+      check_ok: true
+
+# ---------- 2. FILES EXPOSURE -------------------------------------------
+
+  - id: net-tracker-php
+    cat: files-exposure
+    severity: critical
+    premium: true
+
+  - id: net-tracker-js
+    cat: files-exposure
+    severity: critical
+    premium: true
+
+  - id: net-tracker-php-js
+    cat: files-exposure
+    severity: critical
+    premium: true
+
+  - id: net-heatmap-configs
+    cat: files-exposure
+    severity: high
+    premium: true
+
+  - id: net-optout-endpoint
+    cat: files-exposure
+    severity: high
+    premium: true
+
+  - id: net-optout-js
+    cat: files-exposure
+    severity: medium
+    premium: true
+
+  - id: net-favicon
+    cat: files-exposure
+    severity: low
+    premium: true
+
+
+# ---------- 3. CONFIG FILE ----------------------------------------------
+
+  - id: cfg-force-ssl
+    cat: config-file
+    severity: critical
+    methods: [cfg, diag]
+    cfg: {section: General, key: force_ssl, expected: "1"}
+    diag:
+      field: "SSL connection forced"
+      check_ok: true
+
+  - id: cfg-trusted-hosts
+    cat: config-file
+    severity: high
+    methods: [cfg]
+    cfg: {section: General, key: "trusted_hosts[]"}
+
+  - id: cfg-cors-domains
+    cat: config-file
+    severity: high
+    methods: [cfg]
+    cfg: {section: General, key: cors_domains, not_contains: "*"}
+  - id: cfg-login-bruteforce
+    cat: config-file
+    severity: high
+    methods: [cfg, mcp]
+    cfg: {section: General, key: login_allowlist_ip}
+
+  - id: cfg-password-complexity
+    cat: config-file
+    severity: medium
+    methods: [cfg]
+    cfg: {section: General, key: minimum_password_length}
+
+  - id: cfg-enable-auto-update
+    cat: config-file
+    severity: low
+    methods: [diag, cfg]
+    diag:
+      field: "Auto Update Enabled"
+      expected: "1"
+    cfg: {section: General, key: enable_auto_update, expected: "0"}
+  - id: cfg-multi-server-environment
+    cat: config-file
+    severity: high
+    methods: [diag, cfg]
+    diag:
+      field: "Multi Server Environment"
+      expected: "0"
+
+  - id: cfg-unique-visitors-range
+    cat: config-file
+    severity: medium
+    methods: [cfg]
+    cfg: {section: General, key: enable_processing_unique_visitors_range, expected: "0"}
+
+  - id: cfg-unique-visitors-year
+    cat: config-file
+    severity: medium
+    methods: [cfg]
+    cfg: {section: General, key: enable_processing_unique_visitors_year, expected: "0"}
+
+  - id: cfg-custom-reports-max-dimensions
+    cat: config-file
+    severity: low
+    methods: [cfg]
+    cfg: {section: CustomReports, key: custom_reports_max_dimensions}
+
+  - id: cfg-mariadb-schema
+    cat: config-file
+    severity: medium
+    methods: [cfg]
+    cfg: {section: database, key: schema}
+
+# ---------- 4. OPS (BACKUPS & MONITORING) -------------------------------
+
+  - id: ops-logs-enabled
+    cat: ops
+    severity: medium
+    methods: [srv]
+
+
+# ---------- 5. PLUGINS --------------------------------------------------
+
+  - id: plg-inventory-active
+    cat: plugins
+    severity: info
+    premium: true
+
+  - id: plg-inventory-deactivated
+    cat: plugins
+    severity: info
+    premium: true
+
+  - id: plg-invalid
+    cat: plugins
+    severity: high
+    premium: true
+
+  - id: plg-versions-uptodate
+    cat: plugins
+    severity: medium
+    premium: true
+
+  - id: plg-challenge-usage
+    cat: plugins
+    severity: medium
+    premium: true
+
+  - id: plg-core-recommended-active
+    cat: plugins
+    severity: medium
+    premium: true
+
+  - id: plg-deprecated-disabled
+    cat: plugins
+    severity: medium
+    premium: true
+
+  - id: plg-tracking-spam-prevention
+    cat: plugins
+    severity: high
+    premium: true
+  - id: plg-queuedtracking
+    cat: plugins
+    severity: medium
+    premium: true
+
+  - id: plg-form-analytics-autodiscovery
+    cat: plugins
+    severity: medium
+    premium: true
+
+  - id: plg-form-analytics-cleanup
+    cat: plugins
+    severity: low
+    premium: true
+
+# ---------- 6. GENERAL --------------------------------------------------
+
+  - id: gen-branding-logo
+    cat: general
+    severity: info
+    methods: [mcp]
+
+  - id: gen-cors-domains-ui
+    cat: general
+    severity: high
+    methods: [mcp]
+
+  - id: gen-tracking-spam-options
+    cat: general
+    severity: high
+    methods: [mcp]
+
+
+# ---------- 7. PRIVACY / GDPR -------------------------------------------
+
+  - id: prv-ip-anonymization
+    cat: privacy
+    severity: critical
+    premium: true
+  - id: prv-geoloc-anonymization
+    cat: privacy
+    severity: medium
+    premium: true
+
+  - id: prv-live-disabled
+    cat: privacy
+    severity: high
+    premium: true
+
+  - id: prv-heatmaps-disabled-default
+    cat: privacy
+    severity: high
+    premium: true
+
+  - id: prv-raw-data-retention
+    cat: privacy
+    severity: high
+    premium: true
+
+  - id: prv-aggregated-retention
+    cat: privacy
+    severity: low
+    premium: true
+
+  - id: prv-pii-removal
+    cat: privacy
+    severity: medium
+    premium: true
+
+  - id: prv-third-party-cookies
+    cat: privacy
+    severity: high
+    premium: true
+
+  - id: prv-do-not-track
+    cat: privacy
+    severity: info
+    premium: true
+
+
+# ---------- 8. USERS ----------------------------------------------------
+
+  - id: sec-2fa-enabled-superuser
+    cat: users
+    severity: critical
+    premium: true
+
+  - id: sec-2fa-enforced-all
+    cat: users
+    severity: high
+    premium: true
+
+  - id: sec-superuser-count
+    cat: users
+    severity: medium
+    premium: true
+
+  - id: sec-inactive-users
+    cat: users
+    severity: medium
+    premium: true
+
+  - id: sec-shared-accounts
+    cat: users
+    severity: medium
+    premium: true
+
+  - id: sec-anonymous-permissions
+    cat: users
+    severity: critical
+    premium: true
+
+  - id: sec-api-token-lowperm
+    cat: users
+    severity: high
+    premium: true
+
+  - id: sec-tag-manager-permissions
+    cat: users
+    severity: medium
+    premium: true
+
+  - id: sec-activity-log-reviewed
+    cat: users
+    severity: low
+    premium: true
+
+  - id: sec-readonly-mysql-user
+    cat: users
+    severity: low
+    premium: true
+
+# ---------- 9. SITES ----------------------------------------------------
+
+  - id: site-urls-defined
+    cat: sites
+    severity: high
+    premium: true
+
+  - id: site-urls-restrict-tracking
+    cat: sites
+    severity: high
+    premium: true
+
+  - id: site-excluded-ips-global
+    cat: sites
+    severity: medium
+    premium: true
+
+  - id: site-excluded-ips-per-site
+    cat: sites
+    severity: low
+    premium: true
+
+  - id: site-excluded-query-params
+    cat: sites
+    severity: medium
+    premium: true
+
+  - id: site-keep-url-fragments
+    cat: sites
+    severity: low
+    premium: true
+
+  - id: site-ecommerce-mode
+    cat: sites
+    severity: medium
+    premium: true
+
+  - id: site-search-tracking
+    cat: sites
+    severity: medium
+    premium: true
+
+  - id: site-timezone
+    cat: sites
+    severity: medium
+    premium: true
+
+  - id: site-currency
+    cat: sites
+    severity: medium
+    premium: true
+
+  - id: site-duplicates
+    cat: sites
+    severity: low
+    premium: true
+
+  - id: site-heatmap-breakpoints
+    cat: sites
+    severity: low
+    premium: true
+
+  - id: site-ip-geolocation
+    cat: sites
+    severity: medium
+    premium: true
+
+# ---------- 10. DATA QUALITY --------------------------------------------
+
+  - id: data-goals-event-based
+    cat: data-quality
+    severity: high
+    premium: true
+
+  - id: data-goals-exact-match
+    cat: data-quality
+    severity: high
+    premium: true
+
+  - id: data-event-naming-convention
+    cat: data-quality
+    severity: medium
+    premium: true
+
+  - id: data-custom-dimensions-defined
+    cat: data-quality
+    severity: medium
+    premium: true
+
+  - id: data-custom-dimensions-scope
+    cat: data-quality
+    severity: medium
+    premium: true
+
+  - id: data-segments-active
+    cat: data-quality
+    severity: low
+    premium: true
+
+  - id: data-segments-cleanup
+    cat: data-quality
+    severity: medium
+    premium: true
+
+  - id: data-segments-preprocessed-count
+    cat: data-quality
+    severity: high
+    premium: true
+
+  - id: data-segments-operators
+    cat: data-quality
+    severity: medium
+    premium: true
+
+  - id: data-custom-reports-cleanup
+    cat: data-quality
+    severity: low
+    premium: true
+
+  - id: data-funnels-defined
+    cat: data-quality
+    severity: medium
+    premium: true
+
+  - id: data-alerts-defined
+    cat: data-quality
+    severity: medium
+    premium: true
+
+  - id: data-alerts-recipient
+    cat: data-quality
+    severity: low
+    premium: true
+
+  - id: data-annotations-changes
+    cat: data-quality
+    severity: low
+    premium: true
+
+  - id: data-gsc-connected
+    cat: data-quality
+    severity: medium
+    premium: true
+
+  - id: data-tracking-failures
+    cat: data-quality
+    severity: high
+    premium: true
+
+# ---------- 11. TAG MANAGER ---------------------------------------------
+
+  - id: mtm-deployed
+    cat: tag-manager
+    severity: high
+    premium: true
+
+  - id: mtm-environments
+    cat: tag-manager
+    severity: medium
+    premium: true
+
+  - id: mtm-pageview-tag
+    cat: tag-manager
+    severity: critical
+    premium: true
+
+  - id: mtm-naming-tags
+    cat: tag-manager
+    severity: low
+    premium: true
+
+  - id: mtm-naming-triggers
+    cat: tag-manager
+    severity: low
+    premium: true
+
+  - id: mtm-naming-variables
+    cat: tag-manager
+    severity: low
+    premium: true
+
+  - id: mtm-siteId-variable
+    cat: tag-manager
+    severity: medium
+    premium: true
+
+  - id: mtm-tracker-url-current
+    cat: tag-manager
+    severity: low
+    premium: true
+
+# ---------- 12. INTEGRATION ---------------------------------------------
+
+
+# ---------- 13. MULTI-SERVER (CONDITIONAL) ------------------------------
+
+  - id: ms-shared-db
+    cat: multi-server
+    severity: critical
+    premium: true
+
+  - id: ms-db-replicated
+    cat: multi-server
+    severity: high
+    premium: true
+
+  - id: ms-load-balancer
+    cat: multi-server
+    severity: critical
+    premium: true
+
+  - id: ms-archiver-dedicated-node
+    cat: multi-server
+    severity: medium
+    premium: true
+
+# ---------- 14. HIGH TRAFFIC (CONDITIONAL) ------------------------------
+
+  - id: ht-browser-archiving-disabled
+    cat: high-traffic
+    severity: high
+    premium: true
+
+  - id: ht-archive-freshness-tuned
+    cat: high-traffic
+    severity: medium
+    premium: true
+
+  - id: ht-php-fpm-workers
+    cat: high-traffic
+    severity: high
+    premium: true
+
+  - id: ht-mysql-max-connections
+    cat: high-traffic
+    severity: high
+    premium: true
+
+  - id: ht-mysql-slow-query-log
+    cat: high-traffic
+    severity: medium
+    premium: true
+
+  - id: ht-queuedtracking-enabled
+    cat: high-traffic
+    severity: high
+    premium: true
+
+  - id: ht-redis-server
+    cat: high-traffic
+    severity: medium
+    premium: true
+
+  - id: ht-redis-auth
+    cat: high-traffic
+    severity: critical
+    premium: true
+
+  - id: ht-cdn-static-assets
+    cat: high-traffic
+    severity: low
+    premium: true
+
+  - id: ht-segments-count
+    cat: high-traffic
+    severity: medium
+    premium: true
+
+  - id: ht-custom-reports-count
+    cat: high-traffic
+    severity: medium
+    premium: true
+
+  - id: ht-horizontal-scaling
+    cat: high-traffic
+    severity: info
+    premium: true
+
+# ---------- 15. REDISTRIBUTED (was "Additional") -------------------------
+
+  - id: srv-reverse-proxy-xff
+    cat: infrastructure
+    severity: high
+    methods: [srv, web]
+
+  - id: gen-timezone-consistency
+    cat: general
+    severity: medium
+    methods: [diag, db]
+    diag:
+      field: "PHP Timezone"
+
+  - id: srv-geoip-freshness
+    cat: infrastructure
+    severity: medium
+    methods: [srv]
+
+  - id: net-tracker-file-hashing
+    cat: files-exposure
+    severity: low
+    premium: true
+
+  - id: cfg-admin-ip-whitelist
+    cat: config-file
+    severity: medium
+    methods: [srv]
+
+  - id: srv-waf-cdn
+    cat: infrastructure
+    severity: medium
+    premium: true
+
+  - id: site-cross-domain-tracking
+    cat: sites
+    severity: medium
+    premium: true
+

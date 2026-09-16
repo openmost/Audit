@@ -1,0 +1,11 @@
+{% extends 'admin.twig' %}
+
+{% block content %}
+<div
+    vue-entry="Audit.AuditReport"
+    report="{{ report|json_encode }}"
+    export-markdown-url="{{ exportMarkdownUrl|e('html_attr') }}"
+    plugin-version="{{ pluginVersion|e('html_attr') }}"
+    premium-url="{{ premiumUrl|e('html_attr') }}"
+></div>
+{% endblock %}

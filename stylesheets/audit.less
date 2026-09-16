@@ -1,0 +1,335 @@
+/**
+ * Openmost Audit plugin
+ */
+
+@sev-critical: #c62828;
+@sev-high:     #ef6c00;
+@sev-medium:   #b58900;
+@sev-low:      #1976d2;
+@sev-info:     #616161;
+
+@st-pass: #2e7d32;
+@st-fail: #c62828;
+@st-warn: #ef6c00;
+@st-skip: #9e9e9e;
+@st-premium: #7b3fa0;
+
+.audit-report {
+    .audit-topbar {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 8px;
+
+        .audit-title {
+            flex: 1;
+            margin: 0;
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--theme-color-text, #222);
+        }
+
+        .audit-topbar-actions {
+            display: flex;
+            gap: 12px;
+            flex-shrink: 0;
+            align-items: center;
+        }
+    }
+
+
+    .audit-intro {
+        margin: 0 0 16px 0;
+        color: var(--theme-color-text-light, #444);
+    }
+
+    .audit-premium-notice a {
+        font-weight: 600;
+    }
+
+    .audit-premium-badge {
+        display: inline-flex;
+        align-items: center;
+        padding: 1px 8px;
+        font-size: 10.5px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.3px;
+        border-radius: 10px;
+        color: @st-premium;
+        border: 1px solid fade(@st-premium, 40%);
+        background: fade(@st-premium, 8%);
+        flex-shrink: 0;
+    }
+
+    .audit-summary {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-bottom: 16px;
+
+        .audit-summary-tile {
+            flex: 1 1 120px;
+            padding: 12px 16px;
+            border-radius: 4px;
+            border: 1px solid var(--theme-color-border, #e6e6e6);
+            background: var(--theme-color-background-tinyContrast, #fafafa);
+
+            .label {
+                font-size: 12px;
+                color: var(--theme-color-text-light, #666);
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+            }
+            .value {
+                display: block;
+                font-size: 24px;
+                font-weight: 600;
+                margin-top: 4px;
+            }
+
+            &.status-pass .value { color: @st-pass; }
+            &.status-fail .value { color: @st-fail; }
+            &.status-warn .value { color: @st-warn; }
+            &.status-skip .value { color: @st-skip; }
+            &.status-premium .value { color: @st-premium; }
+        }
+    }
+
+    .audit-toolbar {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px;
+        align-items: flex-end;
+        margin-bottom: 20px;
+        padding: 14px 20px;
+        border-radius: 4px;
+        background: var(--theme-color-background-base, #fbfbfb);
+        border: 1px solid var(--theme-color-border-light, #eee);
+        box-sizing: border-box;
+
+        .audit-filter-field {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            min-width: 160px;
+            box-sizing: border-box;
+
+            .audit-filter-label {
+                font-size: 11px;
+                font-weight: 600;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+                color: var(--theme-color-text-light, #666);
+            }
+
+            select,
+            input[type="search"] {
+                width: 100%;
+                min-width: 160px;
+                padding: 4px 8px;
+                box-sizing: border-box;
+            }
+
+            &--search {
+                flex: 1 1 240px;
+                min-width: 200px;
+            }
+        }
+    }
+
+    .audit-category {
+        margin-bottom: 24px;
+
+        .audit-category-head {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 0 0 10px 0;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--theme-color-border, #e6e6e6);
+
+            h3 {
+                margin: 0;
+                font-size: 17px;
+                font-weight: 600;
+                color: var(--theme-color-text, #222);
+                flex: 1;
+            }
+
+            .audit-category-counts {
+                display: flex;
+                gap: 6px;
+
+                .category-count {
+                    display: inline-block;
+                    padding: 2px 8px;
+                    font-size: 11px;
+                    font-weight: 600;
+                    border-radius: 10px;
+                    background: var(--theme-color-background-tinyContrast, #f2f2f2);
+                    color: var(--theme-color-text-light, #444);
+                    border: 1px solid var(--theme-color-border, #e0e0e0);
+
+                    &.status-pass { color: @st-pass; border-color: fade(@st-pass, 35%); background: fade(@st-pass, 8%); }
+                    &.status-fail { color: @st-fail; border-color: fade(@st-fail, 35%); background: fade(@st-fail, 8%); }
+                    &.status-warn { color: @st-warn; border-color: fade(@st-warn, 35%); background: fade(@st-warn, 8%); }
+                    &.status-skip { color: @st-skip; border-color: fade(@st-skip, 35%); background: fade(@st-skip, 8%); }
+                    &.status-premium { color: @st-premium; border-color: fade(@st-premium, 35%); background: fade(@st-premium, 8%); }
+                }
+            }
+        }
+    }
+
+    .audit-finding {
+        margin-bottom: 8px;
+        border-radius: 4px;
+        border: 1px solid var(--theme-color-border, #e6e6e6);
+        border-left-width: 4px;
+        background: var(--theme-color-background-contrast, #fff);
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+
+        &.status-pass { border-left-color: @st-pass; }
+        &.status-fail { border-left-color: @st-fail; }
+        &.status-warn { border-left-color: @st-warn; }
+        &.status-skip { border-left-color: @st-skip; }
+        &.status-premium {
+            border-left-color: @st-premium;
+
+            .finding-title { color: var(--theme-color-text-light, #666); }
+        }
+
+        &.is-open {
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+        }
+
+        .finding-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 14px;
+            cursor: pointer;
+            user-select: none;
+
+            &:hover,
+            &:focus {
+                background: var(--theme-color-background-lowContrast, #f6f6f6);
+                outline: none;
+            }
+
+            .finding-title {
+                flex: 1;
+                font-weight: 500;
+                color: var(--theme-color-text, #222);
+            }
+
+            .finding-id {
+                font-family: Menlo, Monaco, Consolas, monospace;
+                font-size: 11px;
+                color: var(--theme-color-text-light, #9a9a9a);
+                opacity: 0.7;
+            }
+
+            .finding-toggle {
+                display: inline-block;
+                width: 18px;
+                text-align: center;
+                font-size: 16px;
+                font-weight: 700;
+                color: var(--theme-color-text-light, #888);
+            }
+        }
+
+        .finding-content {
+            padding: 0 14px 14px 14px;
+            border-top: 1px solid var(--theme-color-border-light, #efefef);
+            padding-top: 12px;
+        }
+
+        .finding-premium {
+            margin: 0;
+            font-size: 13px;
+            color: var(--theme-color-text-light, #444);
+
+            a { font-weight: 600; }
+        }
+
+        .finding-body {
+            font-size: 13px;
+            color: var(--theme-color-text-light, #444);
+        }
+
+        .finding-kv {
+            display: flex;
+            gap: 20px;
+            margin-top: 8px;
+            font-size: 12px;
+            flex-wrap: wrap;
+
+            .kv-label { color: var(--theme-color-text-light, #666); }
+            .kv-value {
+                font-family: Menlo, Monaco, Consolas, monospace;
+                background: var(--theme-color-background-tinyContrast, #f5f5f5);
+                padding: 1px 6px;
+                border-radius: 3px;
+            }
+        }
+
+        .finding-reco {
+            margin-top: 12px;
+            padding: 10px 12px;
+            background: var(--theme-color-background-tinyContrast, #fafafa);
+            border: 1px solid var(--theme-color-border-light, #eee);
+            border-radius: 4px;
+
+            p { margin: 0 0 6px 0; }
+
+            pre {
+                margin: 6px 0 0 0;
+                padding: 10px 12px;
+                background: #1e1e1e;
+                color: #eaeaea;
+                border-radius: 4px;
+                font-size: 12px;
+                overflow-x: auto;
+            }
+
+            .finding-actions {
+                display: flex;
+                gap: 8px;
+                margin-top: 10px;
+            }
+        }
+
+        .finding-refs {
+            margin-top: 8px;
+            font-size: 12px;
+
+            a { margin-right: 4px; }
+        }
+    }
+
+    // Muted severity pill — it labels, it does not scream.
+    // Color lives in the text + outline only, so a critical pill never
+    // overpowers a pass-state card's green left border.
+    .sev-pill {
+        display: inline-flex;
+        align-items: center;
+        padding: 1px 8px;
+        font-size: 10.5px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.3px;
+        border-radius: 10px;
+        background: transparent;
+        border: 1px solid var(--theme-color-border, #ddd);
+        color: var(--theme-color-text-light, #555);
+        flex-shrink: 0;
+
+        &.severity-critical { color: @sev-critical; border-color: fade(@sev-critical, 40%); background: fade(@sev-critical, 6%); }
+        &.severity-high     { color: @sev-high;     border-color: fade(@sev-high,     40%); background: fade(@sev-high,     6%); }
+        &.severity-medium   { color: @sev-medium;   border-color: fade(@sev-medium,   40%); background: fade(@sev-medium,   8%); }
+        &.severity-low      { color: @sev-low;      border-color: fade(@sev-low,      40%); background: fade(@sev-low,      6%); }
+        &.severity-info     { color: @sev-info;     border-color: fade(@sev-info,     40%); background: fade(@sev-info,     6%); }
+    }
+}
