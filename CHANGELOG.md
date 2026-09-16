@@ -2,6 +2,10 @@
 
 All notable changes to the Openmost Audit plugin are documented here.
 
+## 6.0.1
+
+- New Marketplace cover.
+
 ## 6.0.0
 
 First release of the free edition of Openmost Audit, for Matomo 6.

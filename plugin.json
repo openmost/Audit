@@ -1,7 +1,7 @@
 {
     "name": "Audit",
     "description": "Free read-only audit of your Matomo configuration: 53 checks on server, PHP, database and config.ini.php, with Markdown export.",
-    "version": "6.0.0",
+    "version": "6.0.1",
     "theme": false,
     "require": {
         "php": ">=8.1.0",
