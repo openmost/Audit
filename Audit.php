@@ -13,8 +13,8 @@ namespace Piwik\Plugins\Audit;
 
 class Audit extends \Piwik\Plugin
 {
-    /** Product page of AuditPremium, where the premium checks are sold. */
-    public const PREMIUM_URL = 'https://openmost.com/matomo/extensions/audit?utm_source=matomo_installed_plugin&utm_medium=plugin_audit&utm_campaign=plugin_premium_audit';
+    /** Shop page where AuditPremium, which runs the premium checks, is sold. */
+    public const PREMIUM_URL = 'https://shop.openmost.com/l/audit-premium';
 
     public function registerEvents(): array
     {

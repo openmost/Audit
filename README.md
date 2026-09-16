@@ -28,7 +28,7 @@ configured, without touching a single setting.
 - **Console command** `audit:run` with a table or Markdown output.
 - **7 languages**: English, French, German, Chinese (Simplified),
   Italian, Spanish and Swedish.
-- **96 more checks ([premium](https://openmost.com/matomo/extensions/audit?utm_source=matomo_installed_plugin&utm_medium=plugin_audit_documentation&utm_campaign=plugin_premium_audit))**:
+- **96 more checks ([premium](https://shop.openmost.com/l/audit-premium))**:
   Privacy / GDPR, Users & permissions, Web sites, Data quality, Matomo
   Tag Manager, Plugins, Public file exposure, High traffic /
   performance, Multi-server / HA, plus TLS certificate, CDN/WAF, HTTP/2
@@ -54,7 +54,7 @@ php console plugin:activate Audit
 
 Then open **Administration > Diagnostic > Audit** as a super user.
 
-[Purchase Openmost Audit Premium version](https://openmost.com/matomo/extensions/audit?utm_source=matomo_installed_plugin&utm_medium=plugin_audit_documentation&utm_campaign=plugin_premium_audit)
+[Purchase Openmost Audit Premium version](https://shop.openmost.com/l/audit-premium)
 
 ## Using the plugin
 
@@ -103,7 +103,7 @@ counts the premium checks that were not run.
 
 The following checks are listed in the report with a "Premium" badge
 and run only in the
-[premium version](https://openmost.com/matomo/extensions/audit?utm_source=matomo_installed_plugin&utm_medium=plugin_audit_documentation&utm_campaign=plugin_premium_audit):
+[premium version](https://shop.openmost.com/l/audit-premium):
 
 | Category | Checks |
 |----------|--------|

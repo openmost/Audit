@@ -2,7 +2,7 @@
 
 Plugin Matomo On-Premise qui introspecte l'instance sur laquelle il est installé et produit un rapport d'audit de configuration structuré (page d'administration + export Markdown).
 
-Version **gratuite**, publiée sur le Marketplace Matomo (dépôt public `openmost/Audit`). Elle est issue du plugin payant `AuditPremium` (dépôt privé `openmost/AuditPremium`, page produit https://openmost.com/matomo/extensions/audit) : elle exécute 53 checks et affiche les 96 autres avec un badge « Premium » sans les exécuter. Le découpage est décrit dans `AuditPremium/docs/superpowers/specs/2026-09-16-audit-lite-premium-design.md`.
+Version **gratuite**, publiée sur le Marketplace Matomo (dépôt public `openmost/Audit`). Elle est issue du plugin payant `AuditPremium` (dépôt privé `openmost/AuditPremium`, page produit https://openmost.com/matomo/extensions/audit, achat https://shop.openmost.com/l/audit-premium) : elle exécute 53 checks et affiche les 96 autres avec un badge « Premium » sans les exécuter. Le découpage est décrit dans `AuditPremium/docs/superpowers/specs/2026-09-16-audit-lite-premium-design.md`.
 
 Le plugin est un **runtime pour une checklist** (`Checklist/checklist.yaml`) : la logique métier vit dans la checklist et les classes de checks, le plugin se contente de les exécuter dans le contexte Matomo.
 
@@ -110,5 +110,5 @@ Sous Windows, `vue:build` échoue sur la syntaxe `FORCE_COLOR=1` : récupérer l
 - Le plugin s'active sans erreur (`php console plugin:activate Audit`), la page `?module=Audit` s'affiche sans erreur console et `audit:run` tourne sans exception.
 - Avec AuditPremium actif : pas de menu Audit, `?module=Audit` redirige vers AuditPremium, `audit:run` est celui d'AuditPremium.
 - Bundle Vite reconstruit juste avant de taguer, `plugin.json` et `CHANGELOG.md` à jour.
-- Documentation Marketplace (`README.md`, `docs/index.md`, `docs/faq.md`) à jour, liens premium avec les paramètres UTM `utm_medium=plugin_audit_documentation`.
+- Documentation Marketplace (`README.md`, `docs/index.md`, `docs/faq.md`) à jour, liens d'achat vers https://shop.openmost.com/l/audit-premium (même URL que `Audit::PREMIUM_URL`).
 - Aucun secret (mots de passe, salts, tokens) dans les exports.

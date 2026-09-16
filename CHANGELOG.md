@@ -2,6 +2,10 @@
 
 All notable changes to the Openmost Audit plugin are documented here.
 
+## 6.0.2
+
+- Purchase links for AuditPremium (report page, Markdown export and documentation) now point to the Openmost shop.
+
 ## 6.0.1
 
 - New Marketplace cover.
