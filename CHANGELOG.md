@@ -2,6 +2,20 @@
 
 All notable changes to the Openmost Audit plugin are documented here.
 
+## 5.0.0
+
+Matomo 5 edition of the free Openmost Audit, built from the 6.0.2 code
+base. Same 53 checks, same report and same Markdown export, so an
+instance can be put in order before upgrading to Matomo 6.
+
+- Requires Matomo 5 (`>=5.0.0-b1,<6.0.0-b1`) and PHP 8.1 or higher.
+- The PHP and database version checks keep the Matomo 6 thresholds
+  (PHP 8.1+, MySQL 8.0+ / MariaDB 10.6+) but report them as warnings
+  instead of failures: those versions still run Matomo 5, they only
+  block the upgrade. Their messages say so, in the 7 languages.
+- Vue bundle rebuilt with the Matomo 5 toolchain (vue-cli), as Matomo 5
+  does not load the Vite output of the 6.x branch.
+
 ## 6.0.2
 
 - Purchase links for AuditPremium (report page, Markdown export and documentation) now point to the Openmost shop.

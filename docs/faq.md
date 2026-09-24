@@ -77,9 +77,14 @@ Swedish. The report follows the language of the Matomo user.
 
 ### Which Matomo versions are supported?
 
-Matomo 6, with PHP 8.1 or higher and MySQL 8.0+ or MariaDB 10.6+. The
-version checks follow the Matomo 6 requirements: PHP 8.2 or later is
-recommended, as PHP 8.1 no longer receives security fixes.
+This 5.x release line targets Matomo 5, with PHP 8.1 or higher. The 6.x
+releases target Matomo 6.
+
+On Matomo 5 the PHP and database checks report the *Matomo 6*
+requirements (PHP 8.1+, MySQL 8.0+ / MariaDB 10.6+) as warnings rather
+than failures: those versions still run Matomo 5, they only block the
+upgrade to Matomo 6. PHP 8.2 or later is recommended, as PHP 8.1 no
+longer receives security fixes.
 
 ### Where can I get help?
 

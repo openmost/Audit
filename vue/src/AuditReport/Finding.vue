@@ -27,7 +27,10 @@
         {{ severityLabel }}
       </span>
       <span class="finding-title">{{ finding.title }}</span>
-      <span v-if="isPremium" class="audit-premium-badge">{{ translate('Audit_StatusPremium') }}</span>
+      <span
+        v-if="isPremium"
+        class="audit-premium-badge"
+      >{{ translate('Audit_StatusPremium') }}</span>
       <span class="finding-id">{{ finding.itemId }}</span>
       <span class="finding-toggle" aria-hidden="true">{{ open ? '−' : '+' }}</span>
     </div>

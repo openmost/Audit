@@ -27,7 +27,11 @@
       >
         <span class="audit-premium-badge">{{ translate('Audit_StatusPremium') }}</span>
         {{ translate('Audit_PremiumIntro', summary.premium) }}
-        <a :href="premiumUrl" target="_blank" rel="noopener">{{ translate('Audit_PremiumLinkText') }}</a>
+        <a
+          :href="premiumUrl"
+          target="_blank"
+          rel="noopener"
+        >{{ translate('Audit_PremiumLinkText') }}</a>
       </Notification>
 
       <div class="audit-summary">
@@ -129,7 +133,8 @@
               v-show="count > 0"
               :class="['category-count', `status-${status}`]"
             >
-              {{ count }} {{ translate(`Audit_Status${status.charAt(0).toUpperCase() + status.slice(1)}`) }}
+              {{ count }}
+              {{ translate(`Audit_Status${status.charAt(0).toUpperCase()}${status.slice(1)}`) }}
             </span>
           </div>
         </div>

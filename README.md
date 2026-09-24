@@ -38,9 +38,13 @@ configured, without touching a single setting.
 
 ### Requirements
 
-- Matomo 6 (`>=6.0.0-b1,<7.0.0-b1`)
+- Matomo 5 (`>=5.0.0-b1,<6.0.0-b1`)
 - PHP 8.1 or higher
-- MySQL 8.0+ or MariaDB 10.6+
+
+The version checks report the Matomo 6 requirements (PHP 8.1+, MySQL
+8.0+ / MariaDB 10.6+) as warnings, so an instance still on Matomo 5 can
+see what blocks the upgrade. For Matomo 6, use the 6.x releases of this
+plugin.
 
 ### Installation
 

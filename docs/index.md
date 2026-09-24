@@ -78,7 +78,8 @@ are not run by the free plugin:
 
 ## Requirements
 
-Matomo 6, PHP 8.1 or higher, MySQL 8.0+ or MariaDB 10.6+.
+Matomo 5 and PHP 8.1 or higher. For Matomo 6, use the 6.x releases of
+this plugin.
 
 ## Installation
 

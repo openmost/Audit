@@ -30,13 +30,13 @@ Côté AuditPremium, la page affiche une notification qui propose de désactiver
 
 ## Cible technique
 
-- **Matomo 6** (`>=6.0.0-b1,<7.0.0-b1`), branche principale `6.x-dev`. La version 6.0.0 est la première version du plugin gratuit.
-- **PHP 8.1+** (minimum de Matomo 6) : pas de syntaxe PHP 8.2+ (readonly classes, types `true`/`false`/`null` autonomes, DNF types).
-- **MySQL 8.0+ / MariaDB 10.6+**.
+- **Matomo 5** (`>=5.0.0-b1,<6.0.0-b1`), branche `5.x-dev`. Cette ligne 5.x est issue de `6.x-dev` : elle sert aux instances encore en Matomo 5 pour se mettre en ordre avant la montée de version. La ligne `6.x-dev` reste la branche principale.
+- **PHP 8.1+** (le code utilise des propriétés `readonly`) : pas de syntaxe PHP 8.2+ (readonly classes, types `true`/`false`/`null` autonomes, DNF types).
+- **MySQL 8.0+ / MariaDB 10.6+** : ce sont les seuils de Matomo 6, que les checks signalent en `warn` (et non en `fail`) sur une instance Matomo 5, puisqu'ils bloquent seulement la migration.
 - Namespace racine : `Piwik\Plugins\Audit`, style PSR-12.
 - **Aucune dépendance Composer** : pur PHP + APIs Matomo (parser YAML maison dans `Checklist/YamlParser.php`).
 - Pas de `declare(strict_types=1)` dans `Audit.php` (le contrôle de publication du Marketplace échoue).
-- APIs Matomo 6 : `Piwik\Request::fromRequest()` pour lire les paramètres (jamais `Common::getRequestVar()`, déprécié).
+- `Piwik\Request::fromRequest()` pour lire les paramètres (jamais `Common::getRequestVar()`, déprécié) : la classe existe depuis Matomo 5.0.0.
 
 ## Architecture
 
@@ -82,14 +82,14 @@ Audit/
 - Requêtes via `Piwik\Db::fetchAll()` / `fetchOne()`, jamais PDO direct. Rester sur les métadonnées (`information_schema`, `SHOW VARIABLES`, options).
 - Pas de `shell_exec` ni d'appel CLI externe, pas de télémétrie, **aucun appel HTTP sortant**.
 - Toutes les actions du contrôleur commencent par `Piwik::checkUserHasSuperUserAccess()`.
-- Les recommandations suivent les exigences de Matomo 6 (PHP 8.1 minimum, 8.2+ recommandé ; MySQL 8.0+ / MariaDB 10.6+).
+- Les recommandations suivent les exigences de Matomo 6 (PHP 8.1 minimum, 8.2+ recommandé ; MySQL 8.0+ / MariaDB 10.6+), rapportées en `warn` sur Matomo 5.
 
 ## Développement
 
 ```bash
 cd /chemin/vers/matomo
 
-# Front : build Vite (Node 24) puis lint
+# Front : build vue-cli depuis une racine Matomo 5, puis lint
 php console vue:build Audit
 npx eslint plugins/Audit/vue/src --ext .ts,.vue
 
@@ -102,13 +102,13 @@ php console audit:run --only=srv-php-version,cfg-force-ssl
 php console audit:run --format=markdown > audit.md
 ```
 
-Sous Windows, `vue:build` échoue sur la syntaxe `FORCE_COLOR=1` : récupérer la commande avec `php console vue:build Audit --print-build-command`, retirer le préfixe `cd ... &&`, remplacer les antislashs par des slashs et l'exécuter dans Git Bash.
+Le bundle de cette branche doit être construit depuis une installation **Matomo 5** (`C:/wamp64/www/matomo5` sur le poste de dev) : Matomo 5 construit avec vue-cli / webpack, pas avec Vite, et ne charge pas la sortie Vite de `6.x-dev`. Sous Windows, `vue:build` échoue sur la syntaxe `FORCE_COLOR=1` : récupérer la commande avec `php console vue:build Audit --print-build-command`, retirer le préfixe `cd ... &&`, remplacer les antislashs par des slashs et l'exécuter dans Git Bash.
 
 ## Avant de commit / release
 
 - `PremiumLeakTest` et les autres tests unitaires passent, ESLint passe.
 - Le plugin s'active sans erreur (`php console plugin:activate Audit`), la page `?module=Audit` s'affiche sans erreur console et `audit:run` tourne sans exception.
 - Avec AuditPremium actif : pas de menu Audit, `?module=Audit` redirige vers AuditPremium, `audit:run` est celui d'AuditPremium.
-- Bundle Vite reconstruit juste avant de taguer, `plugin.json` et `CHANGELOG.md` à jour.
+- Bundle vue-cli reconstruit depuis une racine Matomo 5 juste avant de taguer, `plugin.json` et `CHANGELOG.md` à jour.
 - Documentation Marketplace (`README.md`, `docs/index.md`, `docs/faq.md`) à jour, liens d'achat vers https://shop.openmost.com/l/audit-premium (même URL que `Audit::PREMIUM_URL`).
 - Aucun secret (mots de passe, salts, tokens) dans les exports.

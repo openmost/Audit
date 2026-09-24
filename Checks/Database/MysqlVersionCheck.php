@@ -17,9 +17,19 @@ use Piwik\Plugins\Audit\Checklist\ChecklistItem;
 
 class MysqlVersionCheck extends AbstractCheck
 {
-    // Matomo 6 minimums
+    // Matomo 6 minimums: still reported on Matomo 5, as warnings, so the
+    // database can be upgraded before the migration.
     public const MIN_MYSQL   = '8.0.0';
     public const MIN_MARIADB = '10.6.0';
+
+    /**
+     * Overridable so the decision can be exercised on other server
+     * versions than the one the test suite runs against.
+     */
+    protected function readServerVersion(): string
+    {
+        return (string) \Piwik\Db::fetchOne('SELECT VERSION()');
+    }
 
     public function execute(ChecklistItem $item): CheckResult
     {
@@ -28,7 +38,7 @@ class MysqlVersionCheck extends AbstractCheck
         }
 
         try {
-            $version = (string) \Piwik\Db::fetchOne('SELECT VERSION()');
+            $version = $this->readServerVersion();
         } catch (\Throwable $e) {
             return $this->skip($item, detail: $this->t($item, 'read-error', ['error' => $e->getMessage()],
                 'Could not read MySQL version: ' . $e->getMessage()));
@@ -47,8 +57,8 @@ class MysqlVersionCheck extends AbstractCheck
                 );
             }
 
-            return $this->fail($item,
-                detail: $this->t($item, 'mariadb-too-old', $vars, "MariaDB {$version} is below the Matomo 6 minimum (10.6)."),
+            return $this->warn($item,
+                detail: $this->t($item, 'mariadb-too-old', $vars, "MariaDB {$version} runs Matomo 5 but is below the Matomo 6 minimum (10.6): upgrade the database before migrating."),
                 currentValue: $version,
                 expectedValue: 'MariaDB >= 10.6'
             );
@@ -62,8 +72,8 @@ class MysqlVersionCheck extends AbstractCheck
             );
         }
 
-        return $this->fail($item,
-            detail: $this->t($item, 'too-old', $vars, "MySQL {$version} is below the Matomo 6 minimum (8.0)."),
+        return $this->warn($item,
+            detail: $this->t($item, 'too-old', $vars, "MySQL {$version} runs Matomo 5 but is below the Matomo 6 minimum (8.0): upgrade the database before migrating."),
             currentValue: $version,
             expectedValue: 'MySQL >= 8.0'
         );
