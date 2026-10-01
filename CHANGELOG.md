@@ -9,6 +9,7 @@ All notable changes to the Openmost Audit plugin are documented here.
 - Requires Matomo 5.10.0 or higher (`>=5.10.0,<6.0.0-b1`), for the theme variables used by the report.
 - Configuration snippets in the report follow the light or dark Matomo theme, including DarkTheme.
 - 6 more languages: Arabic, Chinese (Traditional), Dutch, Japanese, Polish and Portuguese (13 in total).
+- The package no longer ships internal files: the AI assistant notes (CLAUDE.md) are no longer tracked.
 
 ## 5.0.0
 

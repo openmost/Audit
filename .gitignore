@@ -6,3 +6,4 @@ node_modules
 /vue/dist/*.map
 /vue/dist/demo.html
 .phpunit.result.cache
+CLAUDE.md
