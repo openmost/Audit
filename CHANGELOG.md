@@ -8,6 +8,7 @@ All notable changes to the Openmost Audit plugin are documented here.
 - The Premium links of the report, the Markdown export and the documentation open the Audit page of openmost.com, which tracks the visits, instead of the shop.
 - Configuration snippets in the report follow the light or dark Matomo theme.
 - 6 more languages: Arabic, Chinese (Traditional), Dutch, Japanese, Polish and Portuguese (13 in total).
+- The package no longer ships internal files: the AI assistant notes (CLAUDE.md) are no longer tracked.
 
 ## 6.0.2
 
