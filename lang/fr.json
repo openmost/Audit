@@ -182,6 +182,9 @@
         "SrvPhpOpcacheDetailDisabled": "OPcache est installé mais désactivé.",
         "SrvPhpOpcacheDetailPoolTooSmall": "OPcache est actif mais le pool mémoire est trop petit ({total} Mo).",
         "SrvPhpOpcacheDetailPass": "OPcache activé : {used} Mo utilisés sur {total} Mo.",
+        "SrvPhpOpcacheDetailPassPool": "OPcache activé avec un pool mémoire de {total} Mo. PHP ne fournit pas d'utilisation mémoire exploitable.",
+        "SrvPhpOpcacheDetailUnknown": "OPcache est activé, mais la taille de son pool mémoire ne peut pas être déterminée.",
+        "SrvPhpOpcacheDetailStatusUnavailable": "OPcache est activé, mais son état ne peut pas être lu (vérifiez opcache.restrict_api).",
         "SrvPhpExtensionsDetailPass": "Toutes les extensions PHP requises sont chargées.",
         "SrvPhpExtensionsDetailMissing": "Extensions PHP requises manquantes : {missing}.",
         "SrvPhpShellExecDetailPass": "shell_exec et proc_open sont disponibles.",
@@ -454,5 +457,16 @@
         "CfgAdminIpWhitelistDetailConfigUnavailable": "Piwik\\Config n'est pas disponible.",
         "CfgAdminIpWhitelistDetailEmpty": "Aucune liste d'IP autorisées pour la connexion à l'administration. Restreignez l'accès aux plages du bureau ou du VPN via [General] login_allowlist_ip[].",
         "CfgAdminIpWhitelistDetailPass": "{count} plage(s) d'IP autorisée(s) à se connecter."
+    },
+    "OpenmostCommunication": {
+        "Dismiss": "Masquer",
+        "WidgetName": "Openmost : configuration du suivi des chatbots IA",
+        "AIChatbotsTitle": "Besoin d'aide pour configurer le suivi des chatbots IA ?",
+        "AIChatbotsBody": "Implementation Partner officiel de Matomo, Openmost peut configurer le suivi des chatbots IA pour vous, sur Matomo On-Premise ou Cloud.",
+        "AIChatbotsCta": "Faire configurer le suivi",
+        "TrackingPlanTitle": "Les événements doivent être configurés manuellement",
+        "TrackingPlanBody": "Les événements mesurent les clics, téléchargements, envois de formulaires ou lectures vidéo, à condition d'être suivis. Implementation Partner officiel de Matomo, Openmost conçoit et met en place un plan de marquage adapté à votre site.",
+        "TrackingPlanCta": "Construire mon plan de marquage",
+        "EventsEnhancedLink": "Tirez davantage de vos événements avec Events Enhanced"
     }
 }

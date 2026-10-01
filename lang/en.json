@@ -182,6 +182,9 @@
         "SrvPhpOpcacheDetailDisabled": "OPcache is installed but disabled.",
         "SrvPhpOpcacheDetailPoolTooSmall": "OPcache is active but the memory pool is too small ({total} MB).",
         "SrvPhpOpcacheDetailPass": "OPcache enabled: {used} MB used out of {total} MB.",
+        "SrvPhpOpcacheDetailPassPool": "OPcache enabled with a {total} MB memory pool. PHP does not report a usable memory usage.",
+        "SrvPhpOpcacheDetailUnknown": "OPcache is enabled, but the size of its memory pool cannot be determined.",
+        "SrvPhpOpcacheDetailStatusUnavailable": "OPcache is enabled, but its status cannot be read (check opcache.restrict_api).",
         "SrvPhpExtensionsDetailPass": "All required PHP extensions are loaded.",
         "SrvPhpExtensionsDetailMissing": "Missing required PHP extensions: {missing}.",
         "SrvPhpShellExecDetailPass": "shell_exec and proc_open are available.",
@@ -454,5 +457,16 @@
         "CfgAdminIpWhitelistDetailConfigUnavailable": "Piwik\\Config is not available.",
         "CfgAdminIpWhitelistDetailEmpty": "No IP allowlist for the admin login. Restrict access to office/VPN ranges via [General] login_allowlist_ip[].",
         "CfgAdminIpWhitelistDetailPass": "{count} IP range(s) allowed to log in."
+    },
+    "OpenmostCommunication": {
+        "Dismiss": "Dismiss",
+        "WidgetName": "Openmost: AI chatbot tracking setup",
+        "AIChatbotsTitle": "Need help setting up AI chatbot tracking?",
+        "AIChatbotsBody": "As an official Matomo Implementation Partner, Openmost can configure AI chatbot tracking for you, on Matomo On-Premise or Cloud.",
+        "AIChatbotsCta": "Get it set up for me",
+        "TrackingPlanTitle": "Events need to be set up manually",
+        "TrackingPlanBody": "Events measure clicks, downloads, form submissions or video plays, once they are tracked. As an official Matomo Implementation Partner, Openmost designs and implements a tracking plan that fits your site.",
+        "TrackingPlanCta": "Build my tracking plan",
+        "EventsEnhancedLink": "Get more out of your events with Events Enhanced"
     }
 }

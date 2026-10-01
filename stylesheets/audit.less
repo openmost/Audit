@@ -2,6 +2,8 @@
  * Openmost Audit plugin
  */
 
+@import "codeTheme.less";
+
 @sev-critical: #c62828;
 @sev-high:     #ef6c00;
 @sev-medium:   #b58900;
@@ -287,9 +289,11 @@
             pre {
                 margin: 6px 0 0 0;
                 padding: 10px 12px;
-                background: #1e1e1e;
-                color: #eaeaea;
-                border-radius: 4px;
+                background: var(--om-code-bg);
+                color: var(--om-code-fg);
+                border: 1px solid var(--om-code-border);
+                border-radius: var(--om-code-radius);
+                font-family: var(--om-code-font);
                 font-size: 12px;
                 overflow-x: auto;
             }

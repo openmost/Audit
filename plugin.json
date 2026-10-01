@@ -1,7 +1,7 @@
 {
     "name": "Audit",
-    "description": "Free read-only audit of your Matomo configuration: 53 checks on server, PHP, database and config.ini.php, with Markdown export.",
-    "version": "6.0.2",
+    "description": "Free read-only Matomo audit: 53 checks on server, PHP, database and config, with a Markdown export.",
+    "version": "6.0.3",
     "theme": false,
     "require": {
         "php": ">=8.1.0",
@@ -20,6 +20,9 @@
         "source": "https://github.com/openmost/Audit"
     },
     "homepage": "https://openmost.com/matomo/extensions/audit",
+    "preview": {
+        "video_url": "https://www.youtube-nocookie.com/embed/7assPVsewTM"
+    },
     "license": "GPL v3+",
     "keywords": [
         "audit",
@@ -29,7 +32,7 @@
         "configuration",
         "security",
         "performance",
-        "system check"
+        "system-check"
     ],
     "category": "insights"
 }

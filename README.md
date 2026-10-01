@@ -1,94 +1,20 @@
-# Openmost Audit: Matomo plugin
+# Openmost Audit
 
-## Description
+Free, read-only configuration audit of your Matomo On-Premise instance: 53 checks on the server, PHP, the database and `config.ini.php`, with a Markdown export.
 
-**Openmost Audit** is a free, read-only Matomo On-Premise plugin that
-inspects the instance it is installed on and produces a structured
-configuration audit report: server, PHP, database, `config.ini.php`
-and Matomo general settings, each finding with its severity, the
-observed value, the expected value and a recommendation.
+## Features
 
-It is designed for consultants, ops teams and super users who need a
-quick, repeatable way to verify that a Matomo installation is properly
-configured, without touching a single setting.
+- **53 automated checks** across 6 categories: Infrastructure & server, PHP, Database, `config.ini.php` settings, Matomo general settings, Backups & monitoring.
+- **Actionable findings**: each finding has a status (pass, fail, warn, skip), a severity (critical, high, medium, low, info), the observed value, the expected value, a recommendation and, when relevant, a configuration snippet.
+- **Strictly read-only**: the plugin never writes to `config.ini.php`, to the database or to any file, and never stores the results. Every report is computed fresh.
+- **Admin report** for super users, with filters by category, severity, status and free text.
+- **Markdown export**, ready to paste into a consulting deliverable, with an ASCII-only variant for diff-friendly pipelines.
+- **Console command** `audit:run`, with table or Markdown output and a `--only` filter.
+- **Theme-aware code blocks**: configuration snippets follow the light or dark Matomo theme.
+- **13 languages**: English, Arabic, Chinese (Simplified), Chinese (Traditional), Dutch, French, German, Italian, Japanese, Polish, Portuguese, Spanish and Swedish.
+- **Premium checks listed**: the 96 checks of [Openmost Audit Premium](https://openmost.com/matomo/extensions/audit?utm_source=matomo_marketplace&utm_medium=referral&utm_campaign=premium_upgrade&utm_content=audit) appear in the report with a "Premium" badge, without being run.
 
-### Features
-
-- **53 automated checks** across 6 categories: Infrastructure & server,
-  PHP, Database, `config.ini.php` settings, Matomo general settings,
-  Backups & monitoring.
-- **Strictly read-only**: never writes to `config.ini.php`, to the
-  database or to any file, never stores the results. Every report is
-  computed fresh.
-- **No outbound HTTP calls** and no telemetry.
-- **Admin report** with filters by category, severity, status and a
-  free-text search.
-- **Markdown export** of the report, ready to paste into a consulting
-  deliverable, with an ASCII-only variant for diff-friendly pipelines.
-- **Console command** `audit:run` with a table or Markdown output.
-- **7 languages**: English, French, German, Chinese (Simplified),
-  Italian, Spanish and Swedish.
-- **96 more checks ([premium](https://shop.openmost.com/l/audit-premium))**:
-  Privacy / GDPR, Users & permissions, Web sites, Data quality, Matomo
-  Tag Manager, Plugins, Public file exposure, High traffic /
-  performance, Multi-server / HA, plus TLS certificate, CDN/WAF, HTTP/2
-  and HTTPS redirect checks through read-only HTTP probes. They are
-  listed in the report with a "Premium" badge but not run by this
-  plugin.
-
-### Requirements
-
-- Matomo 6 (`>=6.0.0-b1,<7.0.0-b1`)
-- PHP 8.1 or higher
-- MySQL 8.0+ or MariaDB 10.6+
-
-### Installation
-
-Install the plugin from the Matomo Marketplace (Administration >
-Marketplace), or copy this directory into `plugins/Audit/` of your
-Matomo installation and activate it:
-
-```bash
-php console plugin:activate Audit
-```
-
-Then open **Administration > Diagnostic > Audit** as a super user.
-
-[Purchase Openmost Audit Premium version](https://shop.openmost.com/l/audit-premium)
-
-## Using the plugin
-
-### From the admin UI
-
-- Open **Administration > Diagnostic > Audit** (`?module=Audit`). The
-  report is computed on every page load.
-- Use the filters to narrow the findings by category, severity, status
-  (including "Premium") or free text.
-- Click **Export Markdown** to download the report as a `.md` file.
-  Append `&plain=1` to the export URL to replace the emoji status badges
-  with `[PASS]`, `[FAIL]`, `[WARN]`, `[SKIP]` and `[PREMIUM]` markers.
-
-### From the command line
-
-```bash
-# Table output
-php console audit:run
-
-# Markdown output
-php console audit:run --format=markdown > audit.md
-
-# Only some checks
-php console audit:run --only=srv-php-version,cfg-force-ssl
-
-# Debugging helpers
-php console audit:debug-metrics
-php console audit:debug-translations --locale=fr
-```
-
-The table output lists the checks that ran; its summary line also
-counts the premium checks that were not run.
-
-## Checks run by the free plugin
+### Checks run by the free plugin
 
 | Category | Checks |
 |----------|--------|
@@ -99,11 +25,9 @@ counts the premium checks that were not run.
 | Matomo general settings (4) | Custom logo, TrackingSpamPrevention filters, CORS domains in sync with the UI, timezone consistency between PHP, MySQL and Matomo |
 | Backups & monitoring (1) | Application logs written to a persistent file |
 
-## Premium checks
+### Premium checks
 
-The following checks are listed in the report with a "Premium" badge
-and run only in the
-[premium version](https://shop.openmost.com/l/audit-premium):
+The following checks are listed with a "Premium" badge and only run in [Openmost Audit Premium](https://openmost.com/matomo/extensions/audit?utm_source=matomo_marketplace&utm_medium=referral&utm_campaign=premium_upgrade&utm_content=audit):
 
 | Category | Checks |
 |----------|--------|
@@ -114,48 +38,58 @@ and run only in the
 | Users & permissions (10) | Super user count, 2FA, anonymous access, dormant and shared accounts, API token scope, Tag Manager roles, ActivityLog, read-only MySQL user |
 | Web sites (14) | URLs, excluded IPs and query parameters, URL fragments, e-commerce, site search, timezones, currencies, duplicates, heatmap breakpoints, IP geolocation, cross-domain tracking |
 | Data quality (16) | Goals, event naming, Custom Dimensions, segments, custom reports, funnels, alerts, annotations, Search Console, tracking failures |
-| Matomo Tag Manager (8) | Containers, environments, Matomo tag, naming conventions, per-environment site ID |
+| Matomo Tag Manager (8) | Containers, environments, Matomo tag, naming conventions, per-environment site ID, tracker URL pointing at this Matomo |
 | High traffic / performance (12) | Browser archiving, archive freshness, PHP-FPM workers, MySQL connections, slow query log, QueuedTracking with Redis, CDN for tracker assets, segments and custom reports counts, multi-server topology |
 | Multi-server / HA (4) | Shared database, read replica, load balancer, dedicated archiver |
 
-The Markdown export ends with the list of the premium checks (title,
-id and severity), grouped by category, without any result.
+The Markdown export ends with the list of the premium checks (title, id and severity), grouped by category, without any result.
 
-## Using it with the premium version
+## Requirements
 
-When the premium plugin (`AuditPremium`) is active, it runs every check
-of this plugin too, so this plugin steps aside: its menu entry is
-hidden, its page redirects to the premium report and its console
-commands are left to the premium plugin. You can then deactivate the
-free plugin.
+- Matomo 6 (`>=6.0.0-b1,<7.0.0-b1`)
+- PHP 8.1 or higher
+- MySQL 8.0+ or MariaDB 10.6+
 
-## Security
+## Installation / Configuration
 
-- Read-only: no write to the database, to `config.ini.php` or to any
-  file.
-- No outbound HTTP request, no telemetry.
-- Every controller action requires super user access.
-- The Markdown export only contains the values the checks report,
-  never the content of `config.ini.php`, credentials or salts.
+1. Install the plugin from the Matomo Marketplace (**Administration > Marketplace**), or copy it into `plugins/Audit/` and run `php console plugin:activate Audit`.
+2. Open **Administration > Diagnostic > Audit** as a super user. The report is computed on every page load, there is nothing to configure.
+3. Click **Export Markdown** to download the report as a `.md` file. Append `&plain=1` to the export URL to replace the emoji status badges with `[PASS]`, `[FAIL]`, `[WARN]`, `[SKIP]` and `[PREMIUM]`.
 
-## Development
-
-The source code is on GitHub: <https://github.com/openmost/Audit>.
+From the command line:
 
 ```bash
-cd /path/to/matomo
-
-# Unit tests (no Matomo database needed)
-php vendor/bin/phpunit -c plugins/Audit/tests/phpunit.xml.dist
-
-# Front-end build (Vite)
-php console vue:build Audit
+php console audit:run
+php console audit:run --format=markdown > audit.md
+php console audit:run --only=srv-php-version,cfg-force-ssl
 ```
+
+`audit:debug-metrics` and `audit:debug-translations` are troubleshooting helpers.
+
+### With Audit Premium
+
+AuditPremium runs every check of this plugin too. When it is active, this plugin steps aside: its menu entry is hidden, its page redirects to the premium report and the `audit:*` console commands are the premium ones. You can then deactivate the free plugin.
+
+## Privacy and data
+
+- Read-only: the plugin reads `config.ini.php`, runs read queries (`SELECT`, `SHOW`) and inspects the PHP runtime. It writes nothing and stores nothing.
+- No outbound HTTP request and no telemetry.
+- Every page and export requires super user access.
+- The Markdown export only contains the values the checks report, never the content of `config.ini.php`, credentials or salts.
+
+## Need help with Matomo?
+
+Openmost is an official Matomo Implementation Partner. For an expert review on top of the automated checks, we run [independent Matomo audits](https://openmost.com/matomo/services/audit?utm_source=matomo_marketplace&utm_medium=referral&utm_campaign=services&utm_content=audit) covering tracking, privacy and configuration, delivered as a written report with every fix ranked by impact.
 
 ## Support
 
-- GitHub issues: <https://github.com/openmost/Audit/issues>
+- Homepage: <https://openmost.com/matomo/extensions/audit>
 - Email: [ronan@openmost.com](mailto:ronan@openmost.com)
+- Source code and issues: <https://github.com/openmost/Audit>
+
+## Screenshots
+
+See the `screenshots/` folder: the audit summary with the free and premium checks, an expanded finding with its recommendation and configuration snippet, and the premium checks listed in the free edition.
 
 ## License
 

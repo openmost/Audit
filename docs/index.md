@@ -45,18 +45,18 @@ configuration snippet.
 96 more checks are listed in the report with a "Premium" badge. They
 are not run by the free plugin:
 
-- **Privacy / GDPR ([premium](https://shop.openmost.com/l/audit-premium))**: IP and geolocation anonymization, data retention, PII removal, third-party cookies, Live reports, Heatmaps and Session Recording.
-- **Users & permissions ([premium](https://shop.openmost.com/l/audit-premium))**: super user count, 2FA, anonymous access, dormant and shared accounts, API token scope, Tag Manager roles, ActivityLog.
-- **Web sites ([premium](https://shop.openmost.com/l/audit-premium))**: URLs, excluded IPs and query parameters, e-commerce, site search, timezones, currencies, duplicates, cross-domain tracking.
-- **Data quality ([premium](https://shop.openmost.com/l/audit-premium))**: goals, event naming, Custom Dimensions, segments, custom reports, funnels, alerts, annotations, Search Console, tracking failures.
-- **Matomo Tag Manager ([premium](https://shop.openmost.com/l/audit-premium))**: containers, environments, Matomo tag, naming conventions, per-environment site ID.
-- **Plugins ([premium](https://shop.openmost.com/l/audit-premium))**: plugin inventory, invalid, deprecated and outdated plugins, recommended official plugins, QueuedTracking, FormAnalytics.
-- **Public file exposure ([premium](https://shop.openmost.com/l/audit-premium))**: tracker files, opt-out endpoints, favicon and heatmap configuration endpoint, through read-only HTTP probes.
-- **High traffic / performance ([premium](https://shop.openmost.com/l/audit-premium))**: archiving settings, PHP-FPM workers, MySQL connections, QueuedTracking with Redis, CDN for tracker assets, segments and custom reports counts.
-- **Multi-server / HA ([premium](https://shop.openmost.com/l/audit-premium))**: shared database, read replica, load balancer, dedicated archiver.
-- **HTTP probes ([premium](https://shop.openmost.com/l/audit-premium))**: TLS certificate validity, CDN/WAF, HTTP/2 and HTTPS redirect checks of the Infrastructure & server category.
+- **Privacy / GDPR ([premium](https://openmost.com/matomo/extensions/audit?utm_source=matomo_marketplace&utm_medium=referral&utm_campaign=premium_upgrade&utm_content=audit))**: IP and geolocation anonymization, data retention, PII removal, third-party cookies, Live reports, Heatmaps and Session Recording.
+- **Users & permissions ([premium](https://openmost.com/matomo/extensions/audit?utm_source=matomo_marketplace&utm_medium=referral&utm_campaign=premium_upgrade&utm_content=audit))**: super user count, 2FA, anonymous access, dormant and shared accounts, API token scope, Tag Manager roles, ActivityLog.
+- **Web sites ([premium](https://openmost.com/matomo/extensions/audit?utm_source=matomo_marketplace&utm_medium=referral&utm_campaign=premium_upgrade&utm_content=audit))**: URLs, excluded IPs and query parameters, e-commerce, site search, timezones, currencies, duplicates, cross-domain tracking.
+- **Data quality ([premium](https://openmost.com/matomo/extensions/audit?utm_source=matomo_marketplace&utm_medium=referral&utm_campaign=premium_upgrade&utm_content=audit))**: goals, event naming, Custom Dimensions, segments, custom reports, funnels, alerts, annotations, Search Console, tracking failures.
+- **Matomo Tag Manager ([premium](https://openmost.com/matomo/extensions/audit?utm_source=matomo_marketplace&utm_medium=referral&utm_campaign=premium_upgrade&utm_content=audit))**: containers, environments, Matomo tag, naming conventions, per-environment site ID, tracker URL pointing at this Matomo.
+- **Plugins ([premium](https://openmost.com/matomo/extensions/audit?utm_source=matomo_marketplace&utm_medium=referral&utm_campaign=premium_upgrade&utm_content=audit))**: plugin inventory, invalid, deprecated and outdated plugins, recommended official plugins, QueuedTracking, FormAnalytics.
+- **Public file exposure ([premium](https://openmost.com/matomo/extensions/audit?utm_source=matomo_marketplace&utm_medium=referral&utm_campaign=premium_upgrade&utm_content=audit))**: tracker files, opt-out endpoints, favicon and heatmap configuration endpoint, through read-only HTTP probes.
+- **High traffic / performance ([premium](https://openmost.com/matomo/extensions/audit?utm_source=matomo_marketplace&utm_medium=referral&utm_campaign=premium_upgrade&utm_content=audit))**: archiving settings, PHP-FPM workers, MySQL connections, QueuedTracking with Redis, CDN for tracker assets, segments and custom reports counts.
+- **Multi-server / HA ([premium](https://openmost.com/matomo/extensions/audit?utm_source=matomo_marketplace&utm_medium=referral&utm_campaign=premium_upgrade&utm_content=audit))**: shared database, read replica, load balancer, dedicated archiver.
+- **HTTP probes ([premium](https://openmost.com/matomo/extensions/audit?utm_source=matomo_marketplace&utm_medium=referral&utm_campaign=premium_upgrade&utm_content=audit))**: TLS certificate validity, CDN/WAF, HTTP/2 and HTTPS redirect checks of the Infrastructure & server category.
 
-[Purchase Openmost Audit Premium version](https://shop.openmost.com/l/audit-premium)
+[Purchase Openmost Audit Premium version](https://openmost.com/matomo/extensions/audit?utm_source=matomo_marketplace&utm_medium=referral&utm_campaign=premium_upgrade&utm_content=audit)
 
 ## Key features
 
@@ -73,8 +73,9 @@ are not run by the free plugin:
 - **Console command**: `php console audit:run` prints the report as a
   table, `--format=markdown` as Markdown, `--only=<id>,<id>` restricts
   it to some checks.
-- **7 languages**: English, French, German, Chinese (Simplified),
-  Italian, Spanish and Swedish.
+- **13 languages**: English, Arabic, Chinese (Simplified), Chinese
+  (Traditional), Dutch, French, German, Italian, Japanese, Polish,
+  Portuguese, Spanish and Swedish.
 
 ## Requirements
 

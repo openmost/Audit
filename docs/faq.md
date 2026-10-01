@@ -11,7 +11,7 @@ recommendation.
 ### What are the checks with a "Premium" badge?
 
 The report also lists 96 checks that only run in the
-[premium version](https://shop.openmost.com/l/audit-premium):
+[premium version](https://openmost.com/matomo/extensions/audit?utm_source=matomo_marketplace&utm_medium=referral&utm_campaign=premium_upgrade&utm_content=audit):
 Privacy / GDPR, Users & permissions, Web sites, Data quality, Matomo
 Tag Manager, Plugins, Public file exposure, High traffic / performance
 and Multi-server / HA, plus 4 Infrastructure & server checks that need
@@ -72,7 +72,8 @@ plugin.
 
 ### Which languages are available?
 
-English, French, German, Chinese (Simplified), Italian, Spanish and
+English, Arabic, Chinese (Simplified), Chinese (Traditional), Dutch,
+French, German, Italian, Japanese, Polish, Portuguese, Spanish and
 Swedish. The report follows the language of the Matomo user.
 
 ### Which Matomo versions are supported?

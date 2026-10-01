@@ -13,12 +13,15 @@ namespace Piwik\Plugins\Audit;
 
 class Audit extends \Piwik\Plugin
 {
-    /** Shop page where AuditPremium, which runs the premium checks, is sold. */
-    public const PREMIUM_URL = 'https://shop.openmost.com/l/audit-premium';
+    /** Plugin page on openmost.com, with the purchase of AuditPremium, which runs the premium checks. */
+    public const PREMIUM_URL = 'https://openmost.com/matomo/extensions/audit?utm_source=matomo_onpremise&utm_medium=plugin&utm_campaign=premium_upgrade&utm_content=audit';
 
     public function registerEvents(): array
     {
         return [
+            'Template.afterEventsReport' => 'renderOpenmostCommunicationAfterEvents',
+            'Widget.filterWidgets' => 'addOpenmostCommunicationWidgets',
+            'Template.beforeContent' => 'renderOpenmostCommunication',
             'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
             'Console.filterCommands'                 => 'filterConsoleCommands',
@@ -79,5 +82,20 @@ class Audit extends \Piwik\Plugin
             }
             $translationKeys[] = 'Audit_' . $key;
         }
+    }
+
+    public function renderOpenmostCommunication(&$out, $layout, $module = '', $action = '')
+    {
+        OpenmostCommunication::beforeContent($out, (string) $layout, (string) $module, (string) $action, $this->getPluginName());
+    }
+
+    public function addOpenmostCommunicationWidgets($list)
+    {
+        OpenmostCommunication::filterWidgets($list, $this->getPluginName());
+    }
+
+    public function renderOpenmostCommunicationAfterEvents(&$out, $dataTable = null)
+    {
+        OpenmostCommunication::afterEventsReport($out, $this->getPluginName());
     }
 }
