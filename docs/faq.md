@@ -11,7 +11,7 @@ recommendation.
 ### What are the checks with a "Premium" badge?
 
 The report also lists 96 checks that only run in the
-[premium version](https://shop.openmost.com/l/audit-premium):
+[premium version](https://openmost.com/matomo/extensions/audit?utm_source=matomo_marketplace&utm_medium=referral&utm_campaign=premium_upgrade&utm_content=audit):
 Privacy / GDPR, Users & permissions, Web sites, Data quality, Matomo
 Tag Manager, Plugins, Public file exposure, High traffic / performance
 and Multi-server / HA, plus 4 Infrastructure & server checks that need
@@ -72,13 +72,14 @@ plugin.
 
 ### Which languages are available?
 
-English, French, German, Chinese (Simplified), Italian, Spanish and
+English, Arabic, Chinese (Simplified), Chinese (Traditional), Dutch,
+French, German, Italian, Japanese, Polish, Portuguese, Spanish and
 Swedish. The report follows the language of the Matomo user.
 
 ### Which Matomo versions are supported?
 
-This 5.x release line targets Matomo 5, with PHP 8.1 or higher. The 6.x
-releases target Matomo 6.
+This 5.x release line targets Matomo 5.10.0 or higher, with PHP 8.1 or
+higher. The 6.x releases target Matomo 6.
 
 On Matomo 5 the PHP and database checks report the *Matomo 6*
 requirements (PHP 8.1+, MySQL 8.0+ / MariaDB 10.6+) as warnings rather

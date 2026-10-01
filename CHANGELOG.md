@@ -2,6 +2,14 @@
 
 All notable changes to the Openmost Audit plugin are documented here.
 
+## 5.1.0
+
+- Fix: the OPcache check no longer reports a 0 MB memory pool when PHP returns inconsistent memory counters (negative values, seen on PHP 8.5). It falls back to the configured `opcache.memory_consumption`, and reports that the pool or the status cannot be determined (for example with `opcache.restrict_api`) instead of a false result.
+- The Premium links of the report, the Markdown export and the documentation open the Audit page of openmost.com, which tracks the visits, instead of the shop.
+- Requires Matomo 5.10.0 or higher (`>=5.10.0,<6.0.0-b1`), for the theme variables used by the report.
+- Configuration snippets in the report follow the light or dark Matomo theme, including DarkTheme.
+- 6 more languages: Arabic, Chinese (Traditional), Dutch, Japanese, Polish and Portuguese (13 in total).
+
 ## 5.0.0
 
 Matomo 5 edition of the free Openmost Audit, built from the 6.0.2 code

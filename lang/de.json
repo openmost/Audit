@@ -182,6 +182,9 @@
         "SrvPhpOpcacheDetailDisabled": "OPcache ist installiert, aber deaktiviert.",
         "SrvPhpOpcacheDetailPoolTooSmall": "OPcache ist aktiv, aber der Speicherpool ist zu klein ({total} MB).",
         "SrvPhpOpcacheDetailPass": "OPcache aktiviert: {used} MB von {total} MB belegt.",
+        "SrvPhpOpcacheDetailPassPool": "OPcache aktiviert mit einem Speicherpool von {total} MB. PHP liefert keine verwertbare Speichernutzung.",
+        "SrvPhpOpcacheDetailUnknown": "OPcache ist aktiviert, aber die Größe seines Speicherpools kann nicht ermittelt werden.",
+        "SrvPhpOpcacheDetailStatusUnavailable": "OPcache ist aktiviert, aber sein Status kann nicht gelesen werden (opcache.restrict_api prüfen).",
         "SrvPhpExtensionsDetailPass": "Alle erforderlichen PHP-Erweiterungen sind geladen.",
         "SrvPhpExtensionsDetailMissing": "Fehlende erforderliche PHP-Erweiterungen: {missing}.",
         "SrvPhpShellExecDetailPass": "shell_exec und proc_open sind verfügbar.",
@@ -454,5 +457,19 @@
         "CfgAdminIpWhitelistDetailConfigUnavailable": "Piwik\\Config ist nicht verfügbar.",
         "CfgAdminIpWhitelistDetailEmpty": "Keine IP-Allowlist für die Admin-Anmeldung. Beschränken Sie den Zugriff über [General] login_allowlist_ip[] auf Büro- bzw. VPN-Adressbereiche.",
         "CfgAdminIpWhitelistDetailPass": "Für die Anmeldung zugelassene IP-Bereiche: {count}."
+    },
+    "OpenmostCommunication": {
+        "Dismiss": "Ausblenden",
+        "Matomo6Title": "Matomo 6 ist da",
+        "Matomo6Body": "Openmost ist offizieller Matomo Implementation Partner und arbeitet seit 2016 mit Matomo. Jetzt zu aktualisieren ist einfacher, als in einigen Monaten aufzuholen: Neue Funktionen und Sicherheitsverbesserungen erscheinen zuerst in Matomo 6, und wir bringen Sie dorthin, ohne dass Berichte oder Tracking verloren gehen.",
+        "Matomo6Cta": "Mein Matomo-6-Upgrade planen",
+        "WidgetName": "Openmost: Einrichtung des KI-Chatbot-Trackings",
+        "AIChatbotsTitle": "Brauchen Sie Hilfe beim Einrichten des KI-Chatbot-Trackings?",
+        "AIChatbotsBody": "Als offizieller Matomo Implementation Partner richtet Openmost das KI-Chatbot-Tracking für Sie ein, auf Matomo On-Premise oder Cloud.",
+        "AIChatbotsCta": "Tracking einrichten lassen",
+        "TrackingPlanTitle": "Ereignisse müssen manuell eingerichtet werden",
+        "TrackingPlanBody": "Ereignisse messen Klicks, Downloads, Formularübermittlungen oder Videowiedergaben, sobald sie erfasst werden. Als offizieller Matomo Implementation Partner konzipiert und setzt Openmost einen Tracking-Plan um, der zu Ihrer Website passt.",
+        "TrackingPlanCta": "Meinen Tracking-Plan erstellen",
+        "EventsEnhancedLink": "Holen Sie mit Events Enhanced mehr aus Ihren Ereignissen heraus"
     }
 }
