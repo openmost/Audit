@@ -78,7 +78,7 @@ Swedish. The report follows the language of the Matomo user.
 
 ### Which Matomo versions are supported?
 
-This 5.x release line targets Matomo 5.10.0 or higher, with PHP 8.1 or
+This 5.x release line targets Matomo 5.0.0 or higher, with PHP 8.1 or
 higher. The 6.x releases target Matomo 6.
 
 On Matomo 5 the PHP and database checks report the *Matomo 6*

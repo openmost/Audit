@@ -79,7 +79,7 @@ are not run by the free plugin:
 
 ## Requirements
 
-Matomo 5.10.0 or higher and PHP 8.1 or higher. For Matomo 6, use the 6.x releases of
+Matomo 5.0.0 or higher and PHP 8.1 or higher. For Matomo 6, use the 6.x releases of
 this plugin.
 
 ## Installation

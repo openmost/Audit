@@ -46,7 +46,7 @@ The Markdown export ends with the list of the premium checks (title, id and seve
 
 ## Requirements
 
-- Matomo 5.10.0 or higher (`>=5.10.0,<6.0.0-b1`)
+- Matomo 5.0.0 or higher (`>=5.0.0,<6.0.0-b1`)
 - PHP 8.1 or higher
 - A MySQL or MariaDB version supported by Matomo 5
 
