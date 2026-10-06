@@ -10,6 +10,7 @@ All notable changes to the Openmost Audit plugin are documented here.
 - Configuration snippets in the report follow the light or dark Matomo theme, including DarkTheme.
 - 6 more languages: Arabic, Chinese (Traditional), Dutch, Japanese, Polish and Portuguese (13 in total).
 - The package no longer ships internal files: the AI assistant notes (CLAUDE.md) are no longer tracked.
+- README: the plugin description now shows in the Description tab of the Matomo Marketplace.
 
 ## 5.0.0
 
