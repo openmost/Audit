@@ -64,11 +64,11 @@ troubleshooting.
 
 ### What happens if both Audit and AuditPremium are installed?
 
-AuditPremium runs every check of the free plugin. When it is active,
-the free plugin steps aside: its menu entry is hidden, its page
-redirects to the AuditPremium report and the `audit:*` console
-commands are the AuditPremium ones. You can deactivate the free
-plugin.
+Audit Premium is an add-on of the free plugin. Keep both activated:
+the free plugin shows the report and runs the premium checks the
+add-on provides, so the 154 checks run in the same report, the
+Markdown export and `audit:run`. An **HTTP probes** box appears on the
+report for the premium checks that probe your Matomo host.
 
 ### Which languages are available?
 

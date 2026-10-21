@@ -20,6 +20,8 @@
         "FilterSearch": "搜尋",
         "FilterAll": "全部",
         "ExportMarkdown": "匯出 Markdown",
+        "AllowHttp": "HTTP 探測",
+        "AllowHttpHint": "啟用後，稽核會對你自己的 Matomo 主機發出唯讀的 HEAD/GET 請求，以確認公開檔案暴露、追蹤器網址、TLS 憑證等。切換時會重新執行稽核。",
         "CurrentValue": "目前的值",
         "ExpectedValue": "預期的值",
         "Recommendation": "建議",

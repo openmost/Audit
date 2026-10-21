@@ -100,9 +100,15 @@ class CheckRunner
      */
     private array $overrides = [];
 
+    /**
+     * @param PremiumChecksInterface|null $premiumChecks checks of the Premium add-on, see Audit::getPremiumChecks()
+     * @param bool $allowHttp lets the Premium checks probe Matomo over HTTP
+     */
     public function __construct(
         ?ChecklistLoader $loader = null,
-        ?InstanceMetrics $metrics = null
+        ?InstanceMetrics $metrics = null,
+        private ?PremiumChecksInterface $premiumChecks = null,
+        private bool $allowHttp = false
     ) {
         $this->loader  = $loader  ?? new ChecklistLoader();
         $this->metrics = $metrics ?? new InstanceMetrics();
@@ -134,16 +140,22 @@ class CheckRunner
                 continue;
             }
             if ($item->premium) {
-                $results[] = new CheckResult(
-                    itemId: $item->id,
-                    title: CheckTranslator::title($item),
-                    category: $item->category,
-                    status: CheckResult::STATUS_PREMIUM,
-                    severity: $item->severity
-                );
-                continue;
+                $premiumItem = $this->premiumChecks?->getItem($item->id);
+                if ($premiumItem === null) {
+                    $results[] = new CheckResult(
+                        itemId: $item->id,
+                        title: CheckTranslator::title($item),
+                        category: $item->category,
+                        status: CheckResult::STATUS_PREMIUM,
+                        severity: $item->severity
+                    );
+                    continue;
+                }
+                $item  = $premiumItem;
+                $check = $this->resolvePremiumCheck($item);
+            } else {
+                $check = $this->resolveCheck($item);
             }
-            $check = $this->resolveCheck($item);
             if ($check === null) {
                 continue;
             }
@@ -172,8 +184,8 @@ class CheckRunner
 
     public function resolveCheck(ChecklistItem $item): ?CheckInterface
     {
-        // Premium items only exist in AuditPremium: never run anything for
-        // them, whatever class may be found under Checks/.
+        // Premium items only run through the Premium add-on (resolvePremiumCheck),
+        // never from a class that may be found under Checks/.
         if ($item->premium) {
             return null;
         }
@@ -185,7 +197,24 @@ class CheckRunner
         if ($className === null || !class_exists($className)) {
             return null;
         }
-        $instance = new $className();
+
+        return $this->withMetrics(new $className());
+    }
+
+    /**
+     * Check of a premium item, built by the Premium add-on from its full definition.
+     */
+    public function resolvePremiumCheck(ChecklistItem $item): ?CheckInterface
+    {
+        if (isset($this->overrides[$item->id])) {
+            return $this->overrides[$item->id];
+        }
+
+        return $this->withMetrics($this->premiumChecks?->createCheck($item, $this->allowHttp));
+    }
+
+    private function withMetrics(mixed $instance): ?CheckInterface
+    {
         if (!$instance instanceof CheckInterface) {
             return null;
         }

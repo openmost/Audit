@@ -70,7 +70,7 @@ php console audit:run --only=srv-php-version,cfg-force-ssl
 
 #### With Audit Premium
 
-AuditPremium runs every check of this plugin too. When it is active, this plugin steps aside: its menu entry is hidden, its page redirects to the premium report and the `audit:*` console commands are the premium ones. You can then deactivate the free plugin.
+Audit Premium is an add-on of this plugin: installed and activated next to it, it runs the 101 premium checks in this report, the Markdown export and `audit:run`, instead of only listing them, and adds an **HTTP probes** box to the report for the checks that send read-only requests to your Matomo host. Keep this plugin activated with it.
 
 ### Privacy and data
 

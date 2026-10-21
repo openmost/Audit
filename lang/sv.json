@@ -20,6 +20,8 @@
         "FilterSearch": "Sök",
         "FilterAll": "Alla",
         "ExportMarkdown": "Exportera som Markdown",
+        "AllowHttp": "HTTP-sonder",
+        "AllowHttpHint": "När funktionen är aktiverad skickar granskningen skrivskyddade HEAD/GET-förfrågningar till din egen Matomo-värd för att kontrollera exponering av publika filer, spårnings-URL:er, TLS-certifikat med mera. Granskningen körs om varje gång inställningen växlas.",
         "CurrentValue": "Aktuellt värde",
         "ExpectedValue": "Förväntat värde",
         "Recommendation": "Rekommendation",

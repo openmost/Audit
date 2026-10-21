@@ -87,8 +87,8 @@ Install the plugin from the Matomo Marketplace (*Administration >
 Marketplace*), then open *Administration > Diagnostic > Audit* as a
 super user.
 
-If the premium version (AuditPremium) is also active, the free plugin
-hides its menu entry and redirects to the premium report.
+The premium version (AuditPremium) is an add-on: installed next to
+this plugin, it runs the premium checks in the same report.
 
 ## Source code and support
 

@@ -2,8 +2,9 @@
 
 All notable changes to the Openmost Audit plugin are documented here.
 
-## 6.0.4
+## 6.1.0
 
+- Audit Premium is now an add-on of this plugin: installed and activated next to it, it hands over its 101 premium checks, which run in the report, the Markdown export and `audit:run` instead of being listed only. The report then shows the **HTTP probes** box of the premium checks that probe the Matomo host. Before, Audit Premium replaced this plugin and its page redirected to the premium report.
 - The report lists the 5 new archiving profile checks of the premium version (101 premium checks).
 
 ## 6.0.3

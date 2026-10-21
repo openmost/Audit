@@ -45,6 +45,30 @@
         color: var(--theme-color-text-light, #444);
     }
 
+    // The HTTP-probes Notification reuses Matomo's standard `.alert`
+    // chrome (set by the <Notification> component). We just kill the
+    // leading icon so the checkbox is the first visual element, and
+    // bring the left padding back in line with the other paddings.
+    // `.audit-http-notice` is applied via the component's `cssClass`
+    // prop so it lands directly on the `.notification.system` div.
+    &.notification.audit-http-notice,
+    .audit-http-notice {
+        padding-left: 20px !important;
+
+        &::before {
+            content: none !important;
+        }
+
+        label {
+            color: inherit;
+
+            > span {
+                font-size: inherit;
+                color: inherit;
+            }
+        }
+    }
+
     .audit-premium-notice a {
         font-weight: 600;
     }

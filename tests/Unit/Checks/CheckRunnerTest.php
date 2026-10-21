@@ -19,6 +19,7 @@ use Piwik\Plugins\Audit\Checklist\ChecklistLoader;
 use Piwik\Plugins\Audit\Checks\CheckInterface;
 use Piwik\Plugins\Audit\Checks\CheckResult;
 use Piwik\Plugins\Audit\Checks\CheckRunner;
+use Piwik\Plugins\Audit\Checks\PremiumChecksInterface;
 use Piwik\Plugins\Audit\Checklist\ChecklistItem;
 
 class CheckRunnerTest extends TestCase
@@ -75,6 +76,42 @@ class CheckRunnerTest extends TestCase
         $this->assertSame(CheckResult::STATUS_PREMIUM, $results[0]->status);
         $this->assertSame('', $results[0]->detail);
         $this->assertNull($results[0]->recommendation);
+    }
+
+    public function testPremiumItemsRunThroughThePremiumAddOn(): void
+    {
+        $premium = new class implements PremiumChecksInterface {
+            public ?bool $allowHttp = null;
+
+            public function getItem(string $id): ?ChecklistItem
+            {
+                return $id === 'prv-ip-anonymization'
+                    ? ChecklistItem::fromArray(['id' => $id, 'cat' => 'privacy', 'severity' => 'high', 'title' => 'Full definition'])
+                    : null;
+            }
+
+            public function createCheck(ChecklistItem $item, bool $allowHttp): ?CheckInterface
+            {
+                $this->allowHttp = $allowHttp;
+
+                return new class implements CheckInterface {
+                    public function execute(ChecklistItem $item): CheckResult
+                    {
+                        return new CheckResult($item->id, $item->title, $item->category, CheckResult::STATUS_PASS, $item->severity);
+                    }
+                };
+            }
+        };
+        $runner = new CheckRunner(new ChecklistLoader(__DIR__ . '/../../../Checklist/checklist.yaml'), null, $premium, true);
+
+        $results = $runner->run(['prv-ip-anonymization', 'prv-live-disabled'])->results;
+
+        $this->assertCount(2, $results);
+        $this->assertSame(CheckResult::STATUS_PASS, $results[0]->status);
+        $this->assertSame('Full definition', $results[0]->title);
+        $this->assertTrue($premium->allowHttp);
+        // An item the add-on does not ship stays listed only
+        $this->assertSame(CheckResult::STATUS_PREMIUM, $results[1]->status);
     }
 
     public function testReportCountsFreeAndPremiumChecks(): void

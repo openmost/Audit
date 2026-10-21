@@ -20,6 +20,8 @@
         "FilterSearch": "搜索",
         "FilterAll": "全部",
         "ExportMarkdown": "导出为 Markdown",
+        "AllowHttp": "HTTP 探测",
+        "AllowHttpHint": "启用后，审计会向您自己的 Matomo 主机发送只读的 HEAD/GET 请求，以检查公开文件暴露、跟踪器 URL、TLS 证书等。每次切换都会重新生成报告。",
         "CurrentValue": "当前值",
         "ExpectedValue": "期望值",
         "Recommendation": "建议",

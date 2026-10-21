@@ -20,6 +20,8 @@
         "FilterSearch": "Szukaj",
         "FilterAll": "Wszystkie",
         "ExportMarkdown": "Eksportuj Markdown",
+        "AllowHttp": "Testy HTTP",
+        "AllowHttpHint": "Po włączeniu audyt wysyła żądania HEAD/GET tylko do odczytu do Twojego własnego hosta Matomo, aby sprawdzić publiczną dostępność plików, adresy URL trackera, certyfikat TLS itp. Przełączenie ponownie uruchamia audyt.",
         "CurrentValue": "Bieżąca wartość",
         "ExpectedValue": "Oczekiwana wartość",
         "Recommendation": "Rekomendacja",
