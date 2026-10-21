@@ -2,6 +2,10 @@
 
 All notable changes to the Openmost Audit plugin are documented here.
 
+## 5.2.0
+
+- Audit Premium is now an add-on of this plugin: installed and activated next to it, it hands over its 96 premium checks, which run in the report, the Markdown export and `audit:run` instead of being listed only. The report then shows the **HTTP probes** box of the premium checks that probe the Matomo host. Before, Audit Premium replaced this plugin and its page redirected to the premium report.
+
 ## 5.1.0
 
 - Fix: the OPcache check no longer reports a 0 MB memory pool when PHP returns inconsistent memory counters (negative values, seen on PHP 8.5). It falls back to the configured `opcache.memory_consumption`, and reports that the pool or the status cannot be determined (for example with `opcache.restrict_api`) instead of a false result.

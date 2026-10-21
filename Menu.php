@@ -18,7 +18,7 @@ class Menu extends \Piwik\Plugin\Menu
 {
     public function configureAdminMenu(MenuAdmin $menu): void
     {
-        if (!Piwik::hasUserSuperUserAccess() || Audit::isPremiumActivated()) {
+        if (!Piwik::hasUserSuperUserAccess()) {
             return;
         }
 

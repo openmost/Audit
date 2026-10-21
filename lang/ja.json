@@ -20,6 +20,8 @@
         "FilterSearch": "検索",
         "FilterAll": "すべて",
         "ExportMarkdown": "Markdown をエクスポート",
+        "AllowHttp": "HTTP プローブ",
+        "AllowHttpHint": "有効にすると、監査はお使いの Matomo ホストに対して読み取り専用の HEAD/GET リクエストを送信し、公開ファイルの露出、トラッカー URL、TLS 証明書などを確認します。切り替えると監査が再実行されます。",
         "CurrentValue": "現在の値",
         "ExpectedValue": "期待される値",
         "Recommendation": "推奨事項",

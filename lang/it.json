@@ -20,6 +20,8 @@
         "FilterSearch": "Cerca",
         "FilterAll": "Tutti",
         "ExportMarkdown": "Esporta in Markdown",
+        "AllowHttp": "Sonde HTTP",
+        "AllowHttpHint": "Quando sono attive, l'audit invia richieste HEAD/GET in sola lettura al tuo host Matomo per verificare l'esposizione dei file pubblici, gli URL del tracker, il certificato TLS, ecc. Il report viene rigenerato a ogni attivazione o disattivazione.",
         "CurrentValue": "Valore rilevato",
         "ExpectedValue": "Valore atteso",
         "Recommendation": "Raccomandazione",

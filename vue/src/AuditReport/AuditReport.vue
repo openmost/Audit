@@ -34,6 +34,27 @@
         >{{ translate('Audit_PremiumLinkText') }}</a>
       </Notification>
 
+      <Notification
+        v-if="premiumActivated"
+        css-class="audit-http-notice"
+        :context="allowHttp ? 'success' : 'info'"
+        :noclear="true"
+      >
+        <label>
+          <input
+            id="audit-http-toggle"
+            type="checkbox"
+            class="filled-in"
+            :checked="allowHttp"
+            @change="toggleAllowHttp"
+          />
+          <span>
+            <strong>{{ translate('Audit_AllowHttp') }}</strong>:
+            {{ translate('Audit_AllowHttpHint') }}
+          </span>
+        </label>
+      </Notification>
+
       <div class="audit-summary">
         <div class="audit-summary-tile">
           <span class="label">{{ translate('Audit_TotalChecks') }}</span>
@@ -98,7 +119,9 @@
             <option value="fail">{{ translate('Audit_StatusFail') }}</option>
             <option value="warn">{{ translate('Audit_StatusWarn') }}</option>
             <option value="skip">{{ translate('Audit_StatusSkip') }}</option>
-            <option value="premium">{{ translate('Audit_StatusPremium') }}</option>
+            <option v-if="summary.premium > 0" value="premium">
+              {{ translate('Audit_StatusPremium') }}
+            </option>
           </select>
         </div>
 
@@ -199,6 +222,9 @@ export default defineComponent({
     exportMarkdownUrl: { type: String, required: true },
     pluginVersion: { type: String, required: true },
     premiumUrl: { type: String, required: true },
+    // The Premium add-on runs the premium checks, some of them probe Matomo over HTTP when allowed
+    premiumActivated: { type: Boolean, default: false },
+    allowHttp: { type: Boolean, default: false },
   },
   data() {
     return {
@@ -269,6 +295,17 @@ export default defineComponent({
   },
   methods: {
     translate,
+    toggleAllowHttp(): void {
+      const params = new URLSearchParams(window.location.search);
+      params.set('module', 'Audit');
+      params.set('action', 'index');
+      if (this.allowHttp) {
+        params.delete('allowHttp');
+      } else {
+        params.set('allowHttp', '1');
+      }
+      window.location.assign(`${window.location.pathname}?${params.toString()}`);
+    },
     /**
      * Prefer the localised label (`Audit_Category<Pascal>`) so the
      * category heading shows "Base de données" in FR rather than the

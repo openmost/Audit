@@ -20,6 +20,8 @@
         "FilterSearch": "Zoeken",
         "FilterAll": "Alle",
         "ExportMarkdown": "Markdown exporteren",
+        "AllowHttp": "HTTP-tests",
+        "AllowHttpHint": "Indien ingeschakeld, voert de audit alleen-lezen HEAD/GET-verzoeken uit op uw eigen Matomo-host om de publieke blootstelling van bestanden, tracker-URL's, het TLS-certificaat enz. te controleren. De audit wordt opnieuw uitgevoerd bij het omschakelen.",
         "CurrentValue": "Huidige waarde",
         "ExpectedValue": "Verwachte waarde",
         "Recommendation": "Aanbeveling",

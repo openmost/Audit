@@ -20,6 +20,8 @@
         "FilterSearch": "بحث",
         "FilterAll": "الكل",
         "ExportMarkdown": "تصدير Markdown",
+        "AllowHttp": "فحوصات HTTP",
+        "AllowHttpHint": "عند التفعيل، يرسل التدقيق طلبات HEAD/GET للقراءة فقط إلى خادم Matomo الخاص بك للتحقق من كشف الملفات للعموم وروابط المتتبع وشهادة TLS وغيرها. يُعاد تشغيل التدقيق عند التبديل.",
         "CurrentValue": "القيمة الحالية",
         "ExpectedValue": "القيمة المتوقعة",
         "Recommendation": "التوصية",

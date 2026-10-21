@@ -20,6 +20,8 @@
         "FilterSearch": "Search",
         "FilterAll": "All",
         "ExportMarkdown": "Export Markdown",
+        "AllowHttp": "HTTP probes",
+        "AllowHttpHint": "When enabled, the audit issues read-only HEAD/GET requests against your own Matomo host to verify public file exposure, tracker URLs, TLS certificate, etc. Re-runs the audit on toggle.",
         "CurrentValue": "Current value",
         "ExpectedValue": "Expected value",
         "Recommendation": "Recommendation",

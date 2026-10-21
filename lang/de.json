@@ -20,6 +20,8 @@
         "FilterSearch": "Suchen",
         "FilterAll": "Alle",
         "ExportMarkdown": "Als Markdown exportieren",
+        "AllowHttp": "HTTP-Prüfungen",
+        "AllowHttpHint": "Wenn aktiviert, sendet das Audit nur lesende HEAD/GET-Anfragen an Ihren eigenen Matomo-Host, um die Erreichbarkeit öffentlicher Dateien, die Tracker-URLs, das TLS-Zertifikat usw. zu prüfen. Der Bericht wird bei jedem Umschalten neu erstellt.",
         "CurrentValue": "Aktueller Wert",
         "ExpectedValue": "Erwarteter Wert",
         "Recommendation": "Empfehlung",

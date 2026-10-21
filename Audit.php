@@ -11,6 +11,8 @@
 
 namespace Piwik\Plugins\Audit;
 
+use Piwik\Plugins\Audit\Checks\PremiumChecksInterface;
+
 class Audit extends \Piwik\Plugin
 {
     /** Plugin page on openmost.com, with the purchase of AuditPremium, which runs the premium checks. */
@@ -24,13 +26,12 @@ class Audit extends \Piwik\Plugin
             'Template.beforeContent' => 'renderOpenmostCommunication',
             'AssetManager.getStylesheetFiles'        => 'getStylesheetFiles',
             'Translate.getClientSideTranslationKeys' => 'getClientSideTranslationKeys',
-            'Console.filterCommands'                 => 'filterConsoleCommands',
         ];
     }
 
     /**
-     * AuditPremium ships every check of this plugin. When it is active this
-     * plugin steps aside: no menu entry, page redirected, no console command.
+     * The Premium add-on, installed next to this plugin, runs the premium checks this
+     * plugin only lists.
      */
     public static function isPremiumActivated(): bool
     {
@@ -38,20 +39,19 @@ class Audit extends \Piwik\Plugin
     }
 
     /**
-     * Both plugins declare `audit:run`: leave the command names to
-     * AuditPremium when it is active.
-     *
-     * @param string[] $commands
+     * Checks of the Premium add-on, null when it is not activated. The add-on hands
+     * them over on the `Audit.getPremiumChecks` event.
      */
-    public function filterConsoleCommands(array &$commands): void
+    public static function getPremiumChecks(): ?PremiumChecksInterface
     {
         if (!self::isPremiumActivated()) {
-            return;
+            return null;
         }
-        $commands = array_values(array_filter(
-            $commands,
-            static fn(string $class) => !str_starts_with($class, 'Piwik\\Plugins\\Audit\\')
-        ));
+
+        $premiumChecks = null;
+        \Piwik\Piwik::postEvent('Audit.getPremiumChecks', [&$premiumChecks]);
+
+        return $premiumChecks instanceof PremiumChecksInterface ? $premiumChecks : null;
     }
 
     public function getStylesheetFiles(&$stylesheets): void

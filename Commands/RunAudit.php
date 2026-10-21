@@ -12,6 +12,7 @@
 namespace Piwik\Plugins\Audit\Commands;
 
 use Piwik\Plugin\ConsoleCommand;
+use Piwik\Plugins\Audit\Audit;
 use Piwik\Plugins\Audit\Checks\CheckResult;
 use Piwik\Plugins\Audit\Checks\CheckRunner;
 use Piwik\Plugins\Audit\Checklist\ChecklistLoader;
@@ -45,7 +46,8 @@ class RunAudit extends ConsoleCommand
         $onlyRaw = (string) ($input->getOption('only') ?? '');
         $only    = $onlyRaw === '' ? [] : array_map('trim', explode(',', $onlyRaw));
 
-        $runner = new CheckRunner();
+        // The Premium checks that probe Matomo over HTTP stay off from the command line
+        $runner = new CheckRunner(null, null, Audit::getPremiumChecks());
         $report = $runner->run($only);
 
         if ($input->getOption('format') === 'markdown') {

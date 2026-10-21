@@ -26,25 +26,23 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     {
         Piwik::checkUserHasSuperUserAccess();
 
-        // AuditPremium runs every check: send the user there instead.
-        if (Audit::isPremiumActivated()) {
-            Url::redirectToUrl(Url::getCurrentQueryStringWithParametersModified([
-                'module' => 'AuditPremium',
-                'action' => 'index',
-            ]));
-        }
+        $premiumChecks = Audit::getPremiumChecks();
+        $allowHttp     = $premiumChecks !== null && $this->isHttpAllowed();
+        $report        = (new CheckRunner(null, new InstanceMetrics(), $premiumChecks, $allowHttp))->run();
+        $metadata      = (new ChecklistLoader())->loadMetadata();
 
-        $runner   = new CheckRunner(null, new InstanceMetrics());
-        $report   = $runner->run();
-        $metadata = (new ChecklistLoader())->loadMetadata();
+        $exportParams = ['module' => 'Audit', 'action' => 'exportMarkdown'];
+        if ($allowHttp) {
+            $exportParams['allowHttp'] = 1;
+        }
 
         return $this->renderTemplate('index', [
             'report'            => $this->buildReportPayload($report, $metadata),
-            'exportMarkdownUrl' => Url::getCurrentQueryStringWithParametersModified([
-                'module' => 'Audit', 'action' => 'exportMarkdown',
-            ]),
+            'exportMarkdownUrl' => Url::getCurrentQueryStringWithParametersModified($exportParams),
             'pluginVersion'     => $report->pluginVersion,
             'premiumUrl'        => Audit::PREMIUM_URL,
+            'premiumActivated'  => $premiumChecks !== null,
+            'allowHttp'         => $allowHttp,
         ]);
     }
 
@@ -52,9 +50,10 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
     {
         Piwik::checkUserHasSuperUserAccess();
 
-        $runner   = new CheckRunner(null, new InstanceMetrics());
-        $report   = $runner->run();
-        $metadata = (new ChecklistLoader())->loadMetadata();
+        $premiumChecks = Audit::getPremiumChecks();
+        $allowHttp     = $premiumChecks !== null && $this->isHttpAllowed();
+        $report        = (new CheckRunner(null, new InstanceMetrics(), $premiumChecks, $allowHttp))->run();
+        $metadata      = (new ChecklistLoader())->loadMetadata();
 
         $labels = [];
         foreach (($metadata['categories'] ?? []) as $cat) {
@@ -73,6 +72,14 @@ class Controller extends \Piwik\Plugin\ControllerAdmin
         header('X-Content-Type-Options: nosniff');
 
         echo $body;
+    }
+
+    /**
+     * The Premium checks that probe Matomo over HTTP only run when the user ticks the box of the audit page.
+     */
+    private function isHttpAllowed(): bool
+    {
+        return Request::fromRequest()->getIntegerParameter('allowHttp', 0) === 1;
     }
 
     /**
