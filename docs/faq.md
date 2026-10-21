@@ -10,7 +10,7 @@ recommendation.
 
 ### What are the checks with a "Premium" badge?
 
-The report also lists 96 checks that only run in the
+The report also lists 101 checks that only run in the
 [premium version](https://openmost.com/matomo/extensions/audit?utm_source=matomo_marketplace&utm_medium=referral&utm_campaign=premium_upgrade&utm_content=audit):
 Privacy / GDPR, Users & permissions, Web sites, Data quality, Matomo
 Tag Manager, Plugins, Public file exposure, High traffic / performance

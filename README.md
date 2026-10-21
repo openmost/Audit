@@ -14,7 +14,7 @@ Free, read-only configuration audit of your Matomo On-Premise instance: 53 check
 - **Console command** `audit:run`, with table or Markdown output and a `--only` filter.
 - **Theme-aware code blocks**: configuration snippets follow the light or dark Matomo theme.
 - **13 languages**: English, Arabic, Chinese (Simplified), Chinese (Traditional), Dutch, French, German, Italian, Japanese, Polish, Portuguese, Spanish and Swedish.
-- **Premium checks listed**: the 96 checks of [Openmost Audit Premium](https://openmost.com/matomo/extensions/audit?utm_source=matomo_marketplace&utm_medium=referral&utm_campaign=premium_upgrade&utm_content=audit) appear in the report with a "Premium" badge, without being run.
+- **Premium checks listed**: the 101 checks of [Openmost Audit Premium](https://openmost.com/matomo/extensions/audit?utm_source=matomo_marketplace&utm_medium=referral&utm_campaign=premium_upgrade&utm_content=audit) appear in the report with a "Premium" badge, without being run.
 
 #### Checks run by the free plugin
 

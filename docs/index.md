@@ -42,7 +42,7 @@ configuration snippet.
 
 ## Premium checks
 
-96 more checks are listed in the report with a "Premium" badge. They
+101 more checks are listed in the report with a "Premium" badge. They
 are not run by the free plugin:
 
 - **Privacy / GDPR ([premium](https://openmost.com/matomo/extensions/audit?utm_source=matomo_marketplace&utm_medium=referral&utm_campaign=premium_upgrade&utm_content=audit))**: IP and geolocation anonymization, data retention, PII removal, third-party cookies, Live reports, Heatmaps and Session Recording.

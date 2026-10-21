@@ -93,9 +93,9 @@ class CheckRunnerTest extends TestCase
 
         $summary = $runner->run()->summary();
 
-        $this->assertSame(149, $summary['total']);
+        $this->assertSame(154, $summary['total']);
         $this->assertSame(53, $summary['pass']);
-        $this->assertSame(96, $summary['premium']);
+        $this->assertSame(101, $summary['premium']);
     }
 
     public function testReturnsNullForUnknownPrefix(): void

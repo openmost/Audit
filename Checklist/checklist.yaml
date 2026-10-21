@@ -938,6 +938,31 @@ items:
     severity: info
     premium: true
 
+  - id: ht-archiving-profile
+    cat: high-traffic
+    severity: info
+    premium: true
+
+  - id: ht-archiving-segments-share
+    cat: high-traffic
+    severity: medium
+    premium: true
+
+  - id: ht-archiving-current-periods
+    cat: high-traffic
+    severity: medium
+    premium: true
+
+  - id: ht-archiving-past-reprocessing
+    cat: high-traffic
+    severity: medium
+    premium: true
+
+  - id: ht-archiving-peak-hour
+    cat: high-traffic
+    severity: high
+    premium: true
+
 # ---------- 15. REDISTRIBUTED (was "Additional") -------------------------
 
   - id: srv-reverse-proxy-xff
